@@ -12,7 +12,7 @@ class Table {
     this.countCards = 0;
     this.maxCards = maxSlots;
     this.topOnTable = [];
-  }
+  };
 
   addSlots($domPar1, $domPar2) {
     let count = Math.floor(this.maxCards / 2);
@@ -38,7 +38,7 @@ class Table {
       $domPar2.append(div);
       this.topOnTable.push(0);
     }
-  }
+  };
 
   addOnTop(card, where) {
     if (Number.parseInt(where.text()) + 1 === card[0]) {
@@ -49,9 +49,17 @@ class Table {
         return true;
       } else return false;
     } else return false;
-  }
+  };
 
   lockTen(where) {
     where.animate({ opacity: 0.7 }, 1000);
-  }
+  };
+
+  showOpponents (parent, players = []) {
+
+    players.forEach( val =>{
+      // parent.
+    });
+
+  };
 }
