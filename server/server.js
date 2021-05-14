@@ -30,19 +30,19 @@ io.on('connection', socket => {
 
   
    
-    socket.on('winner', (name) => {
-      io.emit('winner', name);
+    socket.on('winner', (name, room) => {
+      io.to(room).emit('winner', name);
     })
 
-    socket.on('from14', (cardArr, where) => {
+    socket.on('from14', (cardArr, where, room) => {
       console.log(cardArr, where)
-      io.emit('placeFrom14', cardArr, where);
+      io.to(room).emit('placeFrom14', cardArr, where);
     })
     
 
-    socket.on('fromRest', (cardArr, where) => {
+    socket.on('fromRest', (cardArr, where, room) => {
       console.log(cardArr, where)
-      io.emit('placeFromRest', cardArr, where);
+      io.to(room).emit('placeFromRest', cardArr, where);
     })
     
 
@@ -76,7 +76,7 @@ io.on('connection', socket => {
         socket.join(roomName);
         socket.number = io.sockets.adapter.rooms.get(roomName).size;
     //    io.emit('init', 2);
-        io.emit('startGame', io.sockets.adapter.rooms.get(roomName).size, Players[roomName]);
+        io.to(roomName).emit('startGame', io.sockets.adapter.rooms.get(roomName).size, Players[roomName]);
      //io.emit('JoinedPlayer', 2);
         
      //   startGameInterval(roomName);
@@ -91,18 +91,20 @@ io.on('connection', socket => {
 
         clientRooms[socket.id] = roomName;
         
-        io.emit('gameCode', roomName, Players);
+        
     
      //   state[roomName] = initGame();
      socket.join(roomName);
+     io.to(roomName).emit('gameCode', roomName, Players);
      
    
    socket.number = 1;
       //  io.emit('init', 1);
       }
       
-      function startGameNow() {
-   io.emit('startGameNow');
+      function startGameNow(code) {
+        console.log(code)
+   io.to(code).emit('startGameNow');
       }
       
 
@@ -111,9 +113,7 @@ io.on('connection', socket => {
         console.log('A user has disconnected.');
     })
    
-    socket.on('crazyIsClicked', (data) => {
-        io.emit('crazyIsClicked', data);
-    });
+ 
 });
 
 

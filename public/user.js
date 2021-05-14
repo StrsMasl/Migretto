@@ -1,5 +1,6 @@
 class User {
-  constructor(deck, name) {
+  constructor(deck, name, room) {
+    this.room = room;
     this.name = name;
     this.deck = deck.giveDeck();
     this.firstForteen = [];
@@ -78,7 +79,7 @@ class User {
         $('.slot-table').removeClass('selected')
         card.remove();
         console.log(where)
-        socket.emit('fromRest', cardArr, where.id);
+        socket.emit('fromRest', cardArr, where.id, this.room);
       }
 
     } else {
@@ -90,14 +91,14 @@ class User {
         console.log(true)
         cardArr = this.firstForteen.splice(index, 1).pop();
         console.log(where)
-        socket.emit('from14', cardArr, where.id);
+        socket.emit('from14', cardArr, where.id, this.room);
         $('.slot-table').removeClass('selected')
         card.remove();
 
         // Everytime a card is added check if user win game
         
         if(this.firstForteen.length === 3) {
-          socket.emit('winner', this.name);
+          socket.emit('winner', this.name, this.room);
         }
 
       //  this.checkWin();
