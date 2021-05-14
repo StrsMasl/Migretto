@@ -23,8 +23,7 @@
 
 <body>
     <div class="main-row row">
-        <div class="left-main-col col-2"></div>
-        <div class="col-10">
+        <div class="col">
 
             <!-- Start Game Button -->
             <div id="start-div" class="text-center">
@@ -58,36 +57,27 @@
 
 <!-- actual game starts here -->
 
+            <!-- Enemies - Table-->
+            <div style="display: none;" class="center-table fade-together row text-center h-75">
 
-
-
-
-            <!-- Enemy 2 -->
-            <div style="display: none;" id="enemy-2" class="fade-together row text-center h-25">
-                <div class="col bg-info">Enemy 2</div>
-            </div>
-
-            <!-- Enemy 1 - Table - Enemy 3 -->
-            <div style="display: none;" class="center-table fade-together row text-center h-50">
-
-                <!-- Enemy 1  -->
-                <div class="col bg-success">Enemy 1</div>
+                <!-- Enemies  -->
+                <div class="col bg-success">Enemies</div>
 
                 <!-- Table -->
-                <div id="table" class="col-6">
+                <div id="table" class="col-9">
 
                     <!-- Row 1 -->
-                    <div id="slots-1" class="d-flex justify-content-center flex-row h-50">
+                    <div id="slots-1" class="slot-row d-flex justify-content-center flex-row">
                     </div>
 
                     <!-- Row 2 -->
-                    <div id="slots-2" style="margin-top: 5px;" class="d-flex justify-content-center flex-row h-50">
+                    <div id="slots-2" style="margin-top: 5px;" class="slot-row d-flex justify-content-center flex-row">
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div id="slots-2" style="margin-top: 5px;" class="slot-row d-flex justify-content-center flex-row">
                     </div>
                 </div>
-
-                <!-- Enemy 3 -->
-                <div class="col bg-warning">Enemy 3</div>
-
             </div>
 
             <!-- User -->

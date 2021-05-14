@@ -23,7 +23,6 @@ class User {
         .addClass(cards[j][1])
         .addClass("single-card card-user p-2 h-100")
         .text(cards[j][0])
-        .css("background-color", cards[j][1]);
       $domRow.append(div);
     }
     this.updateDeckCard($domRow);
@@ -38,7 +37,6 @@ class User {
         .addClass(card[1])
         .addClass("single-card card-user p-2 h-100")
         .text(card[0])
-        .css("background-color", card[1]);
 
       $domRow.children().eq(0).after(div);
     }
@@ -52,6 +50,8 @@ class User {
       $domRow
       .children()
       .eq(0)
+      .removeClass()
+      .addClass('deck-empty text-center p-2 h-100')
       .text(0);
     } else {
       $domRow
@@ -72,14 +72,15 @@ class User {
     // check where to take out the card from the users decks
     if (index !== -1) {
       cardArr = this.deck[index];
+
       // If card is rejected from table put it back
       if (table.addOnTop(cardArr, $(where))) {
         cardArr = this.deck.splice(index, 1).pop();
+
         this.showDeck($("#deck"));
-        $('.slot-table').removeClass('selected')
+        $('.slot-table').removeClass('selected');
         card.remove();
-        console.log(where)
-        socket.emit('fromRest', cardArr, where.id, this.room);
+        socket.emit('fromRest', cardArr, where.id, this.room); // Send info to server
       }
 
     } else {
@@ -88,10 +89,8 @@ class User {
 
       // If card is rejected from table put it back
       if (table.addOnTop(cardArr, $(where))) {
-        console.log(true)
         cardArr = this.firstForteen.splice(index, 1).pop();
-        console.log(where)
-        socket.emit('from14', cardArr, where.id, this.room);
+        socket.emit('from14', cardArr, where.id, this.room); // Send info to server
         $('.slot-table').removeClass('selected')
         card.remove();
 
@@ -101,7 +100,6 @@ class User {
           socket.emit('winner', this.name, this.room);
         }
 
-      //  this.checkWin();
       }
     }
   }
@@ -129,14 +127,9 @@ class User {
           .addClass(card[1])
           .addClass("single-card card-user p-2 h-100")
           .text(card[0])
-          .css("background-color", card[1])
           .css("margin-left", "-30px");
         $domCol.append(div);
       }
     }, 200);
-  }
-
-  checkWin() {
-    if(this.firstForteen.length === 3) alert('You Win')
   }
 }
