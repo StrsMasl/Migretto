@@ -1,7 +1,9 @@
 let Person; // Player Name
 let Playlerlist;
 let socket = io();
-socket.on("gameCode", handleGameCode);
+
+let code;
+socket.on('gameCode', handleGameCode);
 
 // Server Place Card from 14 deck
 socket.on("placeFrom14", (card, where) => {
@@ -36,7 +38,9 @@ socket.on("placeFromRest", (card, where) => {
 });
 
 function handleGameCode(gameCode, PlayerOne) {
-  $("#gameCodeDisplay").html(gameCode);
+  console.log(gameCode)
+  $('#gameCodeDisplay').html(gameCode);
+  code = gameCode;
 }
 
 socket.on("startGame", (data, Players) => {
@@ -62,7 +66,7 @@ $("#joinGameButton").click(function () {
   $("#gameCodeDiv").hide();
   $("#start-btn").hide();
 
-  const code = gameCodeInput.value;
+  code = gameCodeInput.value;
   Person = prompt("Please enter your name", "");
   socket.emit("joinGame", code, Person);
   $("#new-game-div").fadeOut();
@@ -86,12 +90,12 @@ $("#new-game-btn").click(function () {
 });
 
 $("#start-btn").click(function () {
-  socket.emit("startGameTogether");
+  socket.emit('startGameTogether', code);
 });
 
 socket.on("startGameNow", () => {
   $("#start-div").fadeOut();
-  user = new User(new Deck(), Person);
+  user = new User(new Deck(),Person, code);
   table = new Table(8);
 
   setTimeout(() => {
