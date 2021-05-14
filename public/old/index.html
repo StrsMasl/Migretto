@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- My meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Denislav Gavrilov">
+    <meta name="keywords" content="internet's crazy button">
+    <meta name="description" content="The internet button - a button available to the entire internet! Hey, give it a click!"/>
+    <meta name="twitter:card" content="img/web-card.png">
+    <meta property="og:image" content="img/web-card.png">
+    <!-- Title -->
+    <title>The Internet Button</title>
+    <!-- Links -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<section>
+
+    <button
+              type="submit"
+              class="btn btn-success"
+              id="newGameButton"
+            >
+              Create New Game
+            </button>
+            <h1 style="display: none" id="YourCode">Your game code is: <span id="gameCodeDisplay"></span></h1>
+            <div id="JoinDiv">
+            <h5 style="padding-top:15px;">or</h5>
+
+            <div style="padding-top:15px;" class="form-group">
+                <input type="text" placeholder="Enter Game Code" id="gameCodeInput"/>
+              </div>
+
+            <button
+            type="submit"
+            class="btn btn-success"
+            id="joinGameButton"
+          >
+            Join
+          </button>
+        </div>
+    <button type="button" id="crazyButton" class="btn-crazy btn btn-lg btn-danger">
+    </button>
+    <button style="display: none;" type="button" id="startButton" class="btn-start btn btn-lg">Start
+    </button>
+    <div style="position:absolute;top:0;right:0;display: block">
+    <h1 style="display: none;" id="PlayersDiv">Playerlist <span id="Playerlist"></span></h1>
+  </div>    
+
+    <div style="position:absolute;bottom:0;display: block">
+      <h1  id="Person">Name <span id="PersonCode"></span></h1>
+    <h1  id="PlayerNumber">PlayerNumber <span id="PlayerNumberCode"></span></h1>
+    <h1  id="LastPressed">Last pressed by <span id="LastPressedCode"></span></h1>
+  </div>      
+    <a href="#" class="nes-btn is-warning home-btn">Home</a>
+
+    
+</section>
+    <!-- Socket.IO Javacript -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/app.js" charset="utf-8"></script>
+</body>
+</html>
