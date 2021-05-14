@@ -111,20 +111,20 @@ $("#deck").click(function () {
 // Put Card when slot on table is selected 
 $(".center-table").on("click", ".slot-table", function () {
   $(".slot-table").removeClass("selected");
-  $(this).toggleClass("selected");
 
   // Check if user selected one of his cards
-  let selection = $(".user-cards").find(".selected");
+  let selection = $(".user-cards").find(".selected-user");
   if (selection.length > 0) {
+    $(this).addClass("selected");
     let userCard = selection.eq(0);
     user.putCard(userCard, this);
-  } else $(".slot-table").removeClass("selected");
+  }
 });
 
 // Select User card
 $(".user-cards").on("click", ".single-card", function () {
-  $(".single-card").removeClass("selected");
-  $(this).toggleClass("selected");
+  $(".single-card").removeClass("selected-user");
+  $(this).toggleClass("selected-user");
 });
 
 // Double click deck
