@@ -132,7 +132,9 @@ $(".center-table").on("click", ".slot-table", function () {
     $(this).addClass("selected");
     let userCard = selection.eq(0);
     user.putCard(userCard, this);
+    $(".slot-table").removeClass("selected"); // remove class again prevent bugs
   }
+  $(".slot-table").removeClass("selected"); // remove class again prevent bugs
 });
 
 // Select User card
@@ -142,7 +144,7 @@ $(".user-cards").on("click", ".single-card", function () {
 });
 
 // Double click deck
-$("#deckImp").dblclick(function () {
+$("#deckImp").click(function () {
   user.doubleClickDeck($("#user-cards"));
 });
 

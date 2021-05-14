@@ -4,20 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Pangolin' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <!-- Bootstrap & jQuery library -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <title>Nigretto</title>
+
+    <title>Migretto</title>
 </head>
 <style>
     body {
-        font-family: 'Press Start 2P' !important;
-        font-size: 30px;
+        font-family: 'Pangolin' !important;
     }
 </style>
 
@@ -28,41 +27,71 @@
             <!-- Start Game Button -->
             <div id="start-div" class="text-center">
                 <div id="new-game-div">
-                <button id="new-game-btn" class="video-game-btn">New Game</button>
-        
-            <div id="JoinDiv">
-            <h5 style="padding-top:15px;">or</h5>
+                    <button id="new-game-btn" class="btn draw-border">New Game</button>
 
-            <div style="padding-top:15px;" class="form-group">
-                <input type="text" placeholder="Enter Game Code" id="gameCodeInput"/>
-              </div>
+                    <div id="JoinDiv">
+                        <h5 style="padding-top:15px;">or</h5>
 
-            <button
-            type="submit"
-            class="video-game-btn"
-            id="joinGameButton"
-          >
-            Join
-          </button>
-        </div>
-    </div>
-        <div style="display: none;" id="PlayersDiv">
-            <button id="start-btn" class="video-game-btn">Start</button>
-        <h3  >Playerlist <span id="Playerlist"></span></h1>
-        <h3 id="gameCodeDiv" style="margin-top:20%" >Your game code is: <br/><span id="gameCodeDisplay"></span></h3>
-        
-    </div>
-</div>
+                        <div style="padding-top:15px;" class="form-group">
+                            <input type="text" placeholder="Enter Game Code" id="gameCodeInput" />
+                        </div>
+
+                        <button type="submit" class="btn draw-border" id="joinGameButton">
+                            Join
+                        </button>
+                    </div>
+                </div>
+                <div style="display: none;" id="PlayersDiv">
+                    <button id="start-btn" class="btn draw-border">Start</button>
+                    <h3>Playerlist <span id="Playerlist"></span></h1>
+                        <h3 id="gameCodeDiv" style="margin-top:20%">Your game code is: <br /><span
+                                id="gameCodeDisplay"></span></h3>
+
+                </div>
+            </div>
 
 
-<!-- actual game starts here -->
+            <!-- actual game starts here -->
 
             <!-- Enemies - Table-->
             <div style="display: none;" class="center-table fade-together row text-center h-75">
 
 
                 <!-- Enemies  -->
-                <div class="col bg-success">Enemies</div>
+                <div style="overflow-y: scroll;" class="col-3 bg-success">
+                    <div id="enemies-div">
+                        <div class="oppo-play-div"> 
+                            <h6>Player 2</h6>
+                            <div style="text-align: initial; display: flex;">
+                                <div class="oppo-cards deck-cards text-center">10</div>
+                                <div class="red oppo-cards card-user text-center">2</div>
+                                <div class="blue oppo-cards card-user text-center">3</div>
+                                <div class="red oppo-cards card-user text-center">4</div>
+                                <div class="yellow oppo-cards card-user text-center">5</div>
+                            </div>
+                        </div>
+                        <div class="oppo-play-div">
+                            <h6>Player 3</h6>
+                            <div style="text-align: initial; display: flex;">
+                                <div class="oppo-cards deck-cards text-center">10</div>
+                                <div class="red oppo-cards card-user text-center">2</div>
+                                <div class="blue oppo-cards card-user text-center">3</div>
+                                <div class="red oppo-cards card-user text-center">4</div>
+                                <div class="yellow oppo-cards card-user text-center">5</div>
+                            </div>
+                        </div>
+                        <div class="oppo-play-div">
+                            <h6>Player 4</h6>
+                            <div style="text-align: initial; display: flex;">
+                                <div class="oppo-cards deck-cards text-center">10</div>
+                                <div class="red oppo-cards card-user text-center">2</div>
+                                <div class="blue oppo-cards card-user text-center">3</div>
+                                <div class="red oppo-cards card-user text-center">4</div>
+                                <div class="yellow oppo-cards card-user text-center">5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <!-- Table -->
@@ -110,9 +139,10 @@
 
         </div>
     </div>
-    
+
 </body>
-<script src="/socket.io/socket.io.js"></script> 
+
+<script src="/socket.io/socket.io.js"></script>
 <script src="table.js"></script>
 <script src="deck.js"></script>
 <script src="user.js"></script>
