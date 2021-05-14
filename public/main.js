@@ -1,5 +1,6 @@
 let Person; // Player Name
 let Playlerlist;
+
 let socket = io();
 
 let code;
@@ -46,7 +47,7 @@ function handleGameCode(gameCode, PlayerOne) {
 socket.on("startGame", (data, Players) => {
   console.log(data);
   PlayerListVar = Players;
-  console.log(PlayerListVar);
+
 
   var newHTML = $.map(PlayerListVar, function (value) {
     return "<br/><span>" + value + "</span>";
@@ -93,7 +94,16 @@ $("#start-btn").click(function () {
   socket.emit('startGameTogether', code);
 });
 
-socket.on("startGameNow", () => {
+
+socket.on('startGameNow', () => {
+  
+
+  let OtherPlayers = PlayerListVar.slice();
+  OtherPlayers.splice( $.inArray(Person,OtherPlayers) ,1 );
+  OtherPlayers[0] ? $('#nameOne').html(OtherPlayers[0]) : $('#nameOne').hide();
+  OtherPlayers[1] ? $('#nameTwo').html(OtherPlayers[1]) : $('#nameTwo').hide();
+  OtherPlayers[2] ? $('#nameThree').html(OtherPlayers[2]) : $('#nameThree').hide();
+
   $("#start-div").fadeOut();
   user = new User(new Deck(),Person, code);
   table = new Table(8);
