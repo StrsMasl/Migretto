@@ -22,7 +22,6 @@ class User {
         .addClass(cards[j][1])
         .addClass("single-card card-user p-2 h-100")
         .text(cards[j][0])
-        .css("background-color", cards[j][1]);
       $domRow.append(div);
     }
     this.updateDeckCard($domRow);
@@ -37,7 +36,6 @@ class User {
         .addClass(card[1])
         .addClass("single-card card-user p-2 h-100")
         .text(card[0])
-        .css("background-color", card[1]);
 
       $domRow.children().eq(0).after(div);
     }
@@ -128,7 +126,6 @@ class User {
           .addClass(card[1])
           .addClass("single-card card-user p-2 h-100")
           .text(card[0])
-          .css("background-color", card[1])
           .css("margin-left", "-30px");
         $domCol.append(div);
       }
