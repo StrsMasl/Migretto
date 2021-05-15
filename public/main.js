@@ -46,7 +46,6 @@ function handleGameCode(gameCode, PlayerOne) {
 }
 
 socket.on("startGame", (data, Players) => {
-  console.log(Players);
   PlayerListVar = Players;
 
 
@@ -80,6 +79,9 @@ $("#joinGameButton").click(function () {
 // Start Button
 $("#new-game-btn").click(function () {
   Person = prompt("Please enter your name", "");
+  if(Person === '') {
+    Person = 'Guest'
+  }
   socket.emit("startGameOne", Person);
 
   $("#Playerlist").html(`<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${Person}</dl>`);

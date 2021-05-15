@@ -151,7 +151,11 @@ body {
 }
 
 .slot-row{
-  height: 33%;
+  height: 40%;
+}
+
+.row{
+  margin: 0px !important;
 }
 
 .left-main-col {
@@ -162,50 +166,74 @@ body {
   margin-top: 20%;
 }
 
+#table {
+  padding-top: 30px;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
+  background-color: white !important;
+}
+
+.user-cards {
+  background-color: rgb(162, 163, 163);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px -20px 40px -7px;
+}
+
+.yellowSha{
+  background-color: rgb(248 249 173) !important;
+  box-shadow: rgba(255, 238, 2, 0.2) 0px -20px 40px -7px !important;
+}
+
+.blueSha{
+  background-color: rgb(173 214 249) !important;
+  box-shadow: rgba(17, 0, 253, 0.2) 0px -20px 40px -7px !important;
+}
+
+.greenSha{
+  background-color: rgb(173 249 182) !important;
+  box-shadow: rgba(21, 255, 0, 0.2) 0px -20px 40px -7px !important;
+}
+
+.redSha{
+  background-color: rgb(240 157 158) !important;
+  box-shadow: rgba(255, 0, 0, 0.2) 0px -20px 40px -7px !important;
+}
+
 /* Cards style */
 
 .card-user {
   user-select: none;
   border-radius: 5px;
-  border: 5px solid rgb(255, 255, 255);
   width: 100px;
   margin-left: 5px;
   z-index: 1000;
 }
 
 .yellow {
-  background: linear-gradient(
-    180deg,
-    rgba(251, 248, 163, 1),
-    rgba(242, 199, 10, 1)
-  );
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6);
+  background-color: #ede323 !important;
+  background-image: url("https://www.transparenttextures.com/patterns/crissxcross.png");
+  border: 5px solid rgb(255, 255, 255) !important;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6) ;
 }
 
-.blue {
-  background: linear-gradient(
-    180deg,
-    rgba(195, 202, 255, 1),
-    rgba(33, 37, 246, 1)
-  );
+.blue{
+  background-color: #31b8da !important;
+  background-image: url("https://www.transparenttextures.com/patterns/black-scales.png");
+  border: 5px solid rgb(255, 255, 255) !important;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6);
 }
 
 .red {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 199, 195, 1),
-    rgba(246, 95, 33, 1)
-  );
+  background-color: #e64242 !important;
+  background-image: url("https://www.transparenttextures.com/patterns/candyhole.png");
+  border: 5px solid rgb(255, 255, 255) !important;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6);
 }
 
 .green {
-  background: linear-gradient(
-    180deg,
-    rgba(196, 251, 178, 1),
-    rgba(13, 124, 3, 1)
-  );
+  background-color: #20d635 !important;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+  border: 5px solid rgb(255, 255, 255) !important;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6);
 }
 
@@ -222,10 +250,6 @@ body {
   width: 100px;
 }
 
-#table {
-  padding: 15px !important;
-}
-
 .selected-user {
   border: 4px solid rgb(102, 237, 255) !important;
   transform: translateY(-30px);
@@ -233,10 +257,6 @@ body {
 
 .selected {
   border: 4px solid rgb(102, 237, 255) !important;
-}
-
-.user-cards {
-  background-color: rgb(162, 163, 163);
 }
 
 .deck-cards {
@@ -302,6 +322,7 @@ body {
 .deck-empty{
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='5' ry='5' stroke='black' stroke-width='9' stroke-dasharray='15%2c 15%2c 1' stroke-dashoffset='10' stroke-linecap='square'/%3e%3c/svg%3e");
   border-radius: 5px;
+  width: 100px;
 }
 
 #put-card {
