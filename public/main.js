@@ -46,7 +46,7 @@ function handleGameCode(gameCode, PlayerOne) {
 }
 
 socket.on("startGame", (data, Players) => {
-  console.log(data);
+  console.log(Players);
   PlayerListVar = Players;
 
 
@@ -108,7 +108,13 @@ socket.on('startGameNow', () => {
 
   $("#start-div").fadeOut();
   user = new User(new Deck(),Person, code);
-  table = new Table(8);
+
+  // If there are other Players pass the number of it to table
+  if(PlayerListVar){
+    table = new Table(PlayerListVar.length);
+  } else {
+    table = new Table(1);
+  }
 
   setTimeout(() => {
     user.assignFirstForteen($("#user-cards"));

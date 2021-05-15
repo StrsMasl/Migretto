@@ -8,9 +8,9 @@ Array.prototype.indexOfForArrays = function (search) {
 let user, table;
 
 class Table {
-  constructor(maxSlots) {
+  constructor(totalPlayers) {
     this.countCards = 0;
-    this.maxCards = maxSlots;
+    this.maxCards = totalPlayers * 4;
     this.topOnTable = [];
   };
 
