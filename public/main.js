@@ -50,9 +50,9 @@ socket.on("startGame", (data, Players) => {
 
 
   var newHTML = $.map(PlayerListVar, function (value) {
-    return "<br/><span>" + value + "</span>";
+    return `<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${value}</dl>`;
   });
-  $("#Playerlist").html(newHTML.join(""));
+  $("#Playerlist").html(newHTML);
 
   /*    PlayerListVar.forEach(main);
       $('#Playerlist').html = PlayerListVar
@@ -81,7 +81,7 @@ $("#new-game-btn").click(function () {
   Person = prompt("Please enter your name", "");
   socket.emit("startGameOne", Person);
 
-  $("#Playerlist").html(`<br/><span>${Person}<span>`);
+  $("#Playerlist").html(`<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${Person}</dl>`);
   PlayerNumber = 1;
   $("#new-game-div").fadeOut();
 

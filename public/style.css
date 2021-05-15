@@ -2,60 +2,8 @@ html,
 body {
   height: 100%;
   color: black;
-  font-size: 30pt;
-}
-
-.draw-border {
-  box-shadow: inset 0 0 0 4px rgb(194, 194, 194);
-  color: black;
-  transition: color 0.25s 0.0833333333s;
-  position: relative;
-}
-.draw-border::before, .draw-border::after {
-  border: 0 solid transparent;
-  box-sizing: border-box;
-  content: '';
-  pointer-events: none;
-  position: absolute;
-  width: 0;
-  height: 0;
-  bottom: 0;
-  right: 0;
-}
-.draw-border::before {
-  border-bottom-width: 4px;
-  border-left-width: 4px;
-}
-.draw-border::after {
-  border-top-width: 4px;
-  border-right-width: 4px;
-}
-.draw-border:hover {
-  color: #ffe593 !important;
-}
-.draw-border:hover::before, .draw-border:hover::after {
-  border-color: #ffe593;
-  transition: border-color 0s, width 0.25s, height 0.25s;
-  width: 100%;
-  height: 100%;
-}
-.draw-border:hover::before {
-  transition-delay: 0s, 0s, 0.25s;
-}
-.draw-border:hover::after {
-  transition-delay: 0s, 0.25s, 0s;
-}
-.btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  line-height: 1.5;
-  font: 700 1.2rem 'Pangolin';
-  padding: 1em 2em;
-  letter-spacing: 0.05rem;
-}
-.btn:focus {
-  outline: 2px dotted #ffe593;
+  font-size: 20pt;
+  font-family: 'Roboto';
 }
 
 .main-row {
@@ -63,6 +11,117 @@ body {
   margin-right: 0px !important;
   margin-left: 0px !important;
 }
+
+/* New Game or Join  */
+
+.background{
+  background: #007bff;
+  background: linear-gradient(to right, #0062E6, #33AEFF);
+}
+
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: .75rem;
+}
+
+.card-signin {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden !important;
+}
+
+.card-signin .card-title {
+  margin-bottom: 2rem;
+  font-weight: 300 !important;
+  font-size: 1.5rem !important;
+}
+
+.card-signin .card-body {
+  padding: 2rem;
+}
+
+.form-signin {
+  width: 100%;
+}
+
+.form-signin .btn {
+  font-size: 80%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group input {
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-label-group>input,
+.form-label-group>label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+}
+
+.form-label-group>label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+  padding-bottom: calc(var(--input-padding-y) / 3);
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #777;
+}
+
+.btn-google {
+  color: white !important;
+  background-color: #ea4335 !important;
+}
+
+/* Opposers section & Table */
 
 .card {
   font-size: 10pt !important;
@@ -102,6 +161,8 @@ body {
 .vertically-center {
   margin-top: 20%;
 }
+
+/* Cards style */
 
 .card-user {
   user-select: none;
@@ -243,9 +304,6 @@ body {
   border-radius: 5px;
 }
 
-@keyframes putCard {
-
-}
 #put-card {
   height: 50px;
   width: 50px;
