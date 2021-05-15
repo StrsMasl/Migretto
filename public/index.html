@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Icons & Style -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <!-- Bootstrap & jQuery library -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -18,59 +19,61 @@
 
 <body>
     <div class="main-row row">
-        <div id="start-div" class="col background">
+        <div class="col background">
+            <div id="start-div">
+                <!-- FIRST PAGE NEW GAME & JOIN -->
+                <div id="new-game-div" class="container">
+                    <div class="row">
+                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                            <div class="card card-signin my-5">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Welcome</h5>
+                                    <div class="form-signin">
+                                        <div class="form-label-group">
+                                            <button id="new-game-btn"
+                                                class="btn btn-lg btn-google btn-block text-uppercase">New Game</button>
+                                        </div>
+                                        <hr class="my-4">
+                                        <div class="form-label-group">
+                                            <input type="text" id="gameCodeInput" class="form-control"
+                                                placeholder="Password">
+                                            <label for="gameCodeInput">Code</label>
+                                        </div>
+                                        <button id="joinGameButton"
+                                            class="btn btn-lg btn-primary btn-block text-uppercase">Join Room</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- FIRST PAGE NEW GAME & JOIN -->
-            <div id="new-game-div" class="container">
-                <div class="row">
-                    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                        <div class="card card-signin my-5">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Welcome</h5>
-                                <div class="form-signin">
-                                    <div class="form-label-group">
-                                        <button id="new-game-btn"
-                                            class="btn btn-lg btn-google btn-block text-uppercase">New Game</button>
+                    </div>
+                </div>
+
+                <!-- ROOM & PLAYERS -->
+                <div style="display: none;" id="PlayersDiv" class="container">
+                    <div class="row">
+                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                            <div class="card card-signin my-5">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Room <span id="gameCodeDisplay"></span></h5>
+                                    <div class="form-signin">
+                                        <div style="padding: 0px; margin-bottom: 0px;" class="card-title text-center">
+                                            Players List</div>
+
+                                        <!-- Players list -->
+                                        <dl class="card-title text-center" id="Playerlist"></dl>
+
+                                        <div class="form-label-group">
+                                            <button id="start-btn"
+                                                class="btn btn-lg btn-google btn-block text-uppercase">Start</button>
+                                        </div>
                                     </div>
-                                    <hr class="my-4">
-                                    <div class="form-label-group">
-                                        <input type="text" id="gameCodeInput" class="form-control"
-                                            placeholder="Password">
-                                        <label for="gameCodeInput">Code</label>
-                                    </div>
-                                    <button id="joinGameButton"
-                                        class="btn btn-lg btn-primary btn-block text-uppercase">Join Room</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- ROOM & PLAYERS -->
-            <div style="display: none;" id="PlayersDiv" class="container">
-                <div class="row">
-                    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                        <div class="card card-signin my-5">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Room <span id="gameCodeDisplay"></span></h5>
-                                <div class="form-signin">
-                                    <div style="padding: 0px; margin-bottom: 0px;" class="card-title text-center">Players List</div>
-
-                                    <!-- Players list -->
-                                    <dl class="card-title text-center" id="Playerlist"></dl> 
-
-                                    <div class="form-label-group">
-                                        <button id="start-btn"
-                                            class="btn btn-lg btn-google btn-block text-uppercase">Start</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- GAME TABLE - USER CARDS - OPPONENTS -->
 
             <!-- Enemies - Table-->

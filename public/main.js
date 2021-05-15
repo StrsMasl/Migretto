@@ -1,5 +1,6 @@
 let Person; // Player Name
 let Playlerlist;
+let PlayerListVar;
 
 let socket = io();
 
@@ -97,12 +98,13 @@ $("#start-btn").click(function () {
 
 socket.on('startGameNow', () => {
   
-
-  let OtherPlayers = PlayerListVar.slice();
-  OtherPlayers.splice( $.inArray(Person,OtherPlayers) ,1 );
-  OtherPlayers[0] ? $('#nameOne').html(OtherPlayers[0]) : $('#nameOne').hide();
-  OtherPlayers[1] ? $('#nameTwo').html(OtherPlayers[1]) : $('#nameTwo').hide();
-  OtherPlayers[2] ? $('#nameThree').html(OtherPlayers[2]) : $('#nameThree').hide();
+  if (PlayerListVar){
+    OtherPlayers = PlayerListVar.slice();
+    OtherPlayers.splice( $.inArray(Person,OtherPlayers) ,1 );
+    OtherPlayers[0] ? $('#nameOne').html(OtherPlayers[0]) : $('#nameOne').hide();
+    OtherPlayers[1] ? $('#nameTwo').html(OtherPlayers[1]) : $('#nameTwo').hide();
+    OtherPlayers[2] ? $('#nameThree').html(OtherPlayers[2]) : $('#nameThree').hide();
+  }
 
   $("#start-div").fadeOut();
   user = new User(new Deck(),Person, code);
