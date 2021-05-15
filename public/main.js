@@ -1,5 +1,6 @@
 let Person; // Player Name
 let Playlerlist;
+let PlayerListVar;
 
 let socket = io();
 
@@ -45,14 +46,13 @@ function handleGameCode(gameCode, PlayerOne) {
 }
 
 socket.on("startGame", (data, Players) => {
-  console.log(data);
   PlayerListVar = Players;
 
 
   var newHTML = $.map(PlayerListVar, function (value) {
-    return "<br/><span>" + value + "</span>";
+    return `<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${value}</dl>`;
   });
-  $("#Playerlist").html(newHTML.join(""));
+  $("#Playerlist").html(newHTML);
 
   /*    PlayerListVar.forEach(main);
       $('#Playerlist').html = PlayerListVar
@@ -79,9 +79,12 @@ $("#joinGameButton").click(function () {
 // Start Button
 $("#new-game-btn").click(function () {
   Person = prompt("Please enter your name", "");
+  if(Person === '') {
+    Person = 'Guest'
+  }
   socket.emit("startGameOne", Person);
 
-  $("#Playerlist").html(`<br/><span>${Person}<span>`);
+  $("#Playerlist").html(`<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${Person}</dl>`);
   PlayerNumber = 1;
   $("#new-game-div").fadeOut();
 
@@ -97,16 +100,23 @@ $("#start-btn").click(function () {
 
 socket.on('startGameNow', () => {
   
-
-  let OtherPlayers = PlayerListVar.slice();
-  OtherPlayers.splice( $.inArray(Person,OtherPlayers) ,1 );
-  OtherPlayers[0] ? $('#nameOne').html(OtherPlayers[0]) : $('#nameOne').hide();
-  OtherPlayers[1] ? $('#nameTwo').html(OtherPlayers[1]) : $('#nameTwo').hide();
-  OtherPlayers[2] ? $('#nameThree').html(OtherPlayers[2]) : $('#nameThree').hide();
+  if (PlayerListVar){
+    OtherPlayers = PlayerListVar.slice();
+    OtherPlayers.splice( $.inArray(Person,OtherPlayers) ,1 );
+    OtherPlayers[0] ? $('#nameOne').html(OtherPlayers[0]) : $('#nameOne').hide();
+    OtherPlayers[1] ? $('#nameTwo').html(OtherPlayers[1]) : $('#nameTwo').hide();
+    OtherPlayers[2] ? $('#nameThree').html(OtherPlayers[2]) : $('#nameThree').hide();
+  }
 
   $("#start-div").fadeOut();
   user = new User(new Deck(),Person, code);
-  table = new Table(8);
+
+  // If there are other Players pass the number of it to table
+  if(PlayerListVar){
+    table = new Table(PlayerListVar.length);
+  } else {
+    table = new Table(1);
+  }
 
   setTimeout(() => {
     user.assignFirstForteen($("#user-cards"));
