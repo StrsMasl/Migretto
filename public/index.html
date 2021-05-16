@@ -20,26 +20,43 @@
 
 <body>
     <div style="overflow: auto;" class="main-row background h-100">
-        <div id="overlay" style="background-color: rgba(253, 253, 253, 0.44);
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 100000;
-        display: none;">
-            <button style="position: absolute;
-            top: 10px;
-            width: 15%;
-            right: 10px;
-            display: none;" id="repeat-btn" class="btn btn-lg btn-google btn-block text-uppercase">Rematch</button>
+        <!-- POINTS -->
+        <div id="points-div" style="display: none;" class="container">
+            <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card card-signin my-5">
+                        <div class="card-body">
+                            <h5 id="name-winner" class="card-title text-center">Ranking</h5>
+                            <div class="form-signin">
+                                <div class="form-label-group">
+                                    <ul id="players-points" class="list-group" style="color: black; background: none;">
+                                    </ul>
+                                </div>
+                                <hr class="my-4">
+                                <button id="repeat-btn" class="btn btn-lg btn-primary btn-block text-uppercase">Play
+                                    Again!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      
-        <!-- NEW GAME & ROOM MUSIC -->
+        <div id="overlay" style="display: none;" class="overlay"></div>
+
+        <!-- ROOM MUSIC -->
         <audio id="elevet-music" loop>
-            <source src="SoundEffects/yt1s.com - Elevator Music.mp3" type ="audio/mp3">
+            <source src="SoundEffects/yt1s.com - Elevator Music.mp3" type="audio/mp3">
         </audio>
-      
-        <!-- FIRST PAGE - ROOMS -->
+
+        <!-- FIRE SOUND -->
+        <audio id="fire-sound">
+            <source src="SoundEffects/fire-sound.mp3" type="audio/mp3">
+        </audio>
+
+        <!-- FIRST PAGE - ROOM -->
         <div id="start-div">
+
             <!-- FIRST PAGE NEW GAME & JOIN -->
             <div id="new-game-div" class="container">
                 <div class="row">
@@ -95,8 +112,6 @@
         </div>
 
         <!-- GAME TABLE - USER CARDS - OPPONENTS -->
-
-        <!-- Enemies - Table - User -->
         <div style="display: none;" class="row parent-all fade-together text-center h-100">
 
             <!-- Enemies  -->
@@ -138,7 +153,7 @@
                         </div>
                     </div>
 
-                 
+
                     <!-- Space for Bonus -->
                     <div style="margin-top: auto; margin-bottom: auto;" id="bonus-sec" class="col-2 cards-pad">
                         <div id="bonus-point" style="display: none; z-index: 1100;" class="bonus"></div>
@@ -167,6 +182,8 @@
     </div>
     <script>
         var audio = document.getElementById("elevet-music");
+        var fire = document.getElementById("fire-sound");
+        fire.volume = 0.4;
         audio.volume = 0.1;
     </script>
 </body>
