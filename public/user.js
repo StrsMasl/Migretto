@@ -44,18 +44,17 @@ class User {
 
       this.updateDeckCard($domRow);
       // Collect info from DOM before send to Server
-      let arrSendCard = []
-      $('#user-cards').children().each((i,val) => {
-        arrSendCard.push([
-          Number.parseInt($(val).text()),
-          $(val).attr("class").split(" ")[0],
-        ])
-      })
-   socket.emit("from14", null, null, this.room, this.name, arrSendCard); // Send info to server
-  
-
-      }
-   
+      let arrSendCard = [];
+      $("#user-cards")
+        .children()
+        .each((i, val) => {
+          arrSendCard.push([
+            Number.parseInt($(val).text()),
+            $(val).attr("class").split(" ")[0],
+          ]);
+        });
+      socket.emit("from14", null, null, this.room, this.name, arrSendCard); // Send info to server
+    }
   }
 
   updateDeckCard($domRow) {
@@ -109,9 +108,7 @@ class User {
         this.showDeck($("#deck"));
         $(".slot-table").removeClass("selected");
         card.remove();
-        socket.emit("fromRest", cardArr, where.id, this.room
-        
-        ); // Send info to server
+        socket.emit("fromRest", cardArr, where.id, this.room); // Send info to server
 
         this.onFire();
       }
@@ -123,21 +120,28 @@ class User {
       if (table.addOnTop(cardArr, $(where))) {
         cardArr = this.firstForteen.splice(index, 1).pop();
 
-     
         $(".slot-table").removeClass("selected");
         card.remove();
 
-           // Collect info from DOM before send to Server
-           let arrSendCard = []
-           $('#user-cards').children().each((i,val) => {
-             arrSendCard.push([
-               Number.parseInt($(val).text()),
-               $(val).attr("class").split(" ")[0],
-             ])
-           })
-   
-           socket.emit("from14", cardArr, where.id, this.room, this.name, arrSendCard); // Send info to server
-   
+        // Collect info from DOM before send to Server
+        let arrSendCard = [];
+        $("#user-cards")
+          .children()
+          .each((i, val) => {
+            arrSendCard.push([
+              Number.parseInt($(val).text()),
+              $(val).attr("class").split(" ")[0],
+            ]);
+          });
+
+        socket.emit(
+          "from14",
+          cardArr,
+          where.id,
+          this.room,
+          this.name,
+          arrSendCard
+        ); // Send info to server
 
         // Change color user table
         let userTableClasses = $("#user").attr("class").split(" ");
@@ -208,30 +212,28 @@ class User {
       let idInter = setInterval(function () {
         countPutted--;
 
-        if(timer > 5000) timer-=1000 // Timer is faster every time until 5 sec
+        if (timer > 5000) timer -= 1000; // Timer is faster every time until 5 sec
 
         $("#bonus-point").text(countPutted); // Add number in DOM
 
-        if (countPutted <= 0) { // Stop timer and hide in DOM
+        if (countPutted <= 0) {
+          // Stop timer and hide in DOM
           clearInterval(idInter);
           $("#bonus-point").toggle({
             effect: "scale",
             direction: "horizontal",
           });
-
-        } else if (countPutted < 5) { // FadeOut fire if less then 5
-          $("#fire").fadeOut()
+        } else if (countPutted < 5) {
+          // FadeOut fire if less then 5
+          $("#fire").fadeOut();
         }
       }, timer);
-
     } else if (countPutted > 1) {
-
       $("#bonus-point").text(countPutted);
       if (countPutted >= 5) {
-        $("#fire").fadeIn()
-        $("#bonus-point").click()
+        $("#fire").fadeIn();
+        $("#bonus-point").click();
       }
-
     }
   }
 }
