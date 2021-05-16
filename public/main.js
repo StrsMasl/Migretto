@@ -101,8 +101,20 @@ $("#start-btn").click(function () {
   });
 });
 
+
 socket.on("startGameNow", () => {
-  if (PlayerListVar) {
+
+$("#repeat-btn").click(function () {
+  socket.emit('startGameTogether', code);
+});
+
+
+socket.on('startGameNow', () => {
+ $("#enemies-div").empty(); 
+ 
+
+  
+  if (PlayerListVar){
     OtherPlayers = PlayerListVar.slice();
     OtherPlayers.splice($.inArray(Person, OtherPlayers), 1);
     OtherPlayers[0]
@@ -168,5 +180,9 @@ $("#deckImp").click(function () {
 });
 
 socket.on("winner", (name) => {
+  
+  $("#overlay").show()
+  $("#repeat-btn").show()
   alert(`${name} won`);
+
 });

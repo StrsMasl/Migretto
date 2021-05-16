@@ -28,6 +28,16 @@ class User {
       $domRow.append(div);
     }
     this.updateDeckCard($domRow);
+    let arrSendCard = [];
+    $("#user-cards")
+      .children()
+      .each((i, val) => {
+        arrSendCard.push([
+          Number.parseInt($(val).text()),
+          $(val).attr("class").split(" ")[0],
+        ]);
+      });
+    socket.emit("from14", null, null, this.room, this.name, arrSendCard); // Send info to server
   }
 
   doubleClickDeck($domRow) {
@@ -73,6 +83,7 @@ class User {
   }
 
   putCard(card, where) {
+    console.log(this.name, this.room)
     let cardRec = [
         Number.parseInt($(card).text()),
         $(card).attr("class").split(" ")[0],
