@@ -97,8 +97,15 @@ $("#start-btn").click(function () {
   socket.emit('startGameTogether', code);
 });
 
+$("#repeat-btn").click(function () {
+  socket.emit('startGameTogether', code);
+});
+
 
 socket.on('startGameNow', () => {
+ $("#enemies-div").empty(); 
+ 
+
   
   if (PlayerListVar){
     OtherPlayers = PlayerListVar.slice();
@@ -160,5 +167,9 @@ $("#deckImp").click(function () {
 });
 
 socket.on("winner", (name) => {
+  
+  $("#overlay").show()
+  $("#repeat-btn").show()
   alert(`${name} won`);
+
 });
