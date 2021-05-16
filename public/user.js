@@ -96,18 +96,21 @@ class User {
         this.showDeck($("#deck"));
         $(".slot-table").removeClass("selected");
         card.remove();
-        socket.emit("fromRest", cardArr, where.id, this.room); // Send info to server
+        socket.emit("fromRest", cardArr, where.id, this.room
+        
+        ); // Send info to server
 
         this.onFire();
       }
     } else {
       index = this.firstForteen.indexOfForArrays(cardRec);
       cardArr = this.firstForteen[index];
-
+      console.log($("#user-cards"))
+      console.log($("#user-cards").children());
       // If card is rejected from table put it back
       if (table.addOnTop(cardArr, $(where))) {
         cardArr = this.firstForteen.splice(index, 1).pop();
-        socket.emit("from14", cardArr, where.id, this.room); // Send info to server
+        socket.emit("from14", cardArr, where.id, this.room, this.name, $('#user-cards').children()); // Send info to server
         $(".slot-table").removeClass("selected");
         card.remove();
 
