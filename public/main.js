@@ -105,8 +105,8 @@ socket.on('startGameNow', () => {
   user = new User(new Deck(),Person, code);
 
   // If there are other Players pass the number and the array
-  if(PlayerListVar){
-    table = new Table(PlayerListVar.length, PlayerListVar);
+  if(OtherPlayers){
+    table = new Table(PlayerListVar.length, OtherPlayers);
     table.showOpponents($('#enemies-div'))
   } else {
     table = new Table(1);
