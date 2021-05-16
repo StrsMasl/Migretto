@@ -41,6 +41,17 @@ class User {
         .text(card[0]);
 
       $domRow.children().eq(0).after(div);
+
+      // Collect info from DOM before send to Server
+      let arrSendCard = []
+      $('#user-cards').children().each((i,val) => {
+        arrSendCard.push([
+          Number.parseInt($(val).text()),
+          $(val).attr("class").split(" ")[0],
+        ])
+      })
+
+      socket.emit("from14", null, null, this.room, this.name, arrSendCard); // Send info to server
     }
     this.updateDeckCard($domRow);
   }
@@ -105,12 +116,22 @@ class User {
     } else {
       index = this.firstForteen.indexOfForArrays(cardRec);
       cardArr = this.firstForteen[index];
-      console.log($("#user-cards"))
-      console.log($("#user-cards").children());
+
       // If card is rejected from table put it back
       if (table.addOnTop(cardArr, $(where))) {
         cardArr = this.firstForteen.splice(index, 1).pop();
-        socket.emit("from14", cardArr, where.id, this.room, this.name, $('#user-cards').children()); // Send info to server
+
+        // Collect info from DOM before send to Server
+        let arrSendCard = []
+        $('#user-cards').children().each((i,val) => {
+          arrSendCard.push([
+            Number.parseInt($(val).text()),
+            $(val).attr("class").split(" ")[0],
+          ])
+        })
+
+        socket.emit("from14", cardArr, where.id, this.room, this.name, arrSendCard); // Send info to server
+
         $(".slot-table").removeClass("selected");
         card.remove();
 
