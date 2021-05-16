@@ -1,11 +1,12 @@
 let Person; // Player Name
 let Playlerlist;
 let PlayerListVar;
-let user, table;
-
+let user,
+  table,
+  round = 0;
 let socket = io();
-
 let code;
+
 socket.on("gameCode", handleGameCode);
 
 socket.on("changeEnemies", (name, cards) => {
@@ -21,7 +22,7 @@ socket.on("placeFrom14", (card, where) => {
 
   where1.removeClass().addClass(card[1]).addClass(classes).text(card[0]);
 
-  if (card[0] === 10) this.lockTen(where1);
+  if (card[0] === 10) user.lockTen(where1);
 });
 
 // Server Place Card from normal deck
@@ -56,15 +57,17 @@ $("#joinGameButton").click(function () {
   code = gameCodeInput.value;
   Person = prompt("Please enter your name", "");
   if (Person === "") Person = "Guest";
+
   socket.emit("joinGame", code, Person);
+
   $("#new-game-div").fadeOut();
   setTimeout(() => {
     $("#PlayersDiv").fadeIn();
   }, 500);
-  $("audio").each(function () {
-    this.play(); // Start playing
-    this.currentTime = 0; // Reset time
-  });
+
+  let rommMusic = document.getElementById("elevet-music");
+  rommMusic.play(); // Start playing
+  rommMusic.currentTime = 0; // Reset time
 });
 
 // Start Button
@@ -85,36 +88,37 @@ $("#new-game-btn").click(function () {
     $("#PlayersDiv").fadeIn();
   }, 500);
 
-  $("audio").each(function () {
-    this.play(); // Start playing
-    this.currentTime = 0; // Reset time
-  });
+  let rommMusic = document.getElementById("elevet-music");
+  rommMusic.play(); // Start playing
+  rommMusic.currentTime = 0; // Reset time
 });
 
 $("#start-btn").click(function () {
   socket.emit("startGameTogether", code);
-  $("audio").each(function () {
-    $(this).animate({ volume: 0 }, 2000, function () {
-      this.pause(); // Stop playing
-      this.currentTime = 0; // Reset time
-    });
+
+  // Stop Music
+  $("#elevet-music").animate({ volume: 0 }, 2000, function () {
+    this.pause(); // Stop playing
+    this.currentTime = 0; // Reset time
   });
 });
 
-
-socket.on("startGameNow", () => {
-
 $("#repeat-btn").click(function () {
-  socket.emit('startGameTogether', code);
+  socket.emit("startGameTogether", code);
 });
 
+socket.on("startGameNow", () => {
+  if (round > 0) {
+    clearDOM();
+  }
 
-socket.on('startGameNow', () => {
- $("#enemies-div").empty(); 
- 
+  // Stop Music
+  $("#elevet-music").animate({ volume: 0 }, 2000, function () {
+    this.pause(); // Stop playing
+    this.currentTime = 0; // Reset time
+  });
 
-  
-  if (PlayerListVar){
+  if (PlayerListVar) {
     OtherPlayers = PlayerListVar.slice();
     OtherPlayers.splice($.inArray(Person, OtherPlayers), 1);
     OtherPlayers[0]
@@ -146,6 +150,8 @@ socket.on('startGameNow', () => {
 
     $(".fade-together").fadeIn();
   }, 500);
+
+  round += 1;
 });
 
 // Click deck get new card
@@ -174,15 +180,73 @@ $(".user-cards").on("click", ".single-card", function () {
   $(this).toggleClass("selected-user");
 });
 
-// Double click deck
+// Click deck
 $("#deckImp").click(function () {
   user.doubleClickDeck($("#user-cards"));
 });
 
-socket.on("winner", (name) => {
-  
-  $("#overlay").show()
-  $("#repeat-btn").show()
-  alert(`${name} won`);
-
+// Send Point to server
+socket.on("getPoints", (name) => {
+  socket.emit(
+    "points",
+    user.firstForteen.length,
+    user.deck.length,
+    user.name,
+    user.room,
+    name
+  );
 });
+
+// Show points on client           NOT WORKIN PROPERLY
+let count = 0;
+socket.on("winner", (pointsArr, winnerName) => {
+  if (count === PlayerListVar.length - 1) {
+    $("#overlay").show();
+    console.log(pointsArr);
+    $("#name-winner").text(`${winnerName} won!`);
+
+    pointsArr.forEach((val) => {
+      let resultPoint = (val[2] - 26) - val[1] * 2
+      let span = $("<span></span>")
+        .addClass("badge badge-pill")
+        .text(resultPoint);
+      let li = $("<li></li>")
+        .addClass(
+          "points-color list-group-item d-flex justify-content-between align-items-center"
+        )
+        .text(val[0]);
+      li.append(span);
+
+      if ($("#players-points").children().length === 0) $("#players-points").append(li);
+      else {
+        $("#players-points")
+          .children()
+          .each((i, valIn) => {
+            debugger
+            let pointsToParse = $(valIn).children().eq(0).text();
+            debugger
+            let points = Number.parseInt(pointsToParse);
+
+            if (points >= resultPoint) $(valIn).after(li)
+            else $(valIn).before(li)
+          });
+      }
+    });
+    $("#points-div").show();
+  }
+  count++;
+});
+
+function clearDOM() {
+  $("#enemies-div").empty();
+  $('#overlay').hide();
+  $('#points-div').hide();
+  $("#players-points").empty();
+  $("#deck-col-add").empty();
+  $("#slots-1").empty();
+  $("#slots-2").empty();
+  let deck14 = $("#deckImp");
+  $("#user-cards").empty();
+  $("#user-cards").append(deck14);
+  count = 0;
+}

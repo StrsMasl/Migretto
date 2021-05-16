@@ -83,7 +83,7 @@ class User {
   }
 
   putCard(card, where) {
-    console.log(this.name, this.room)
+    console.log(this.name, this.room);
     let cardRec = [
         Number.parseInt($(card).text()),
         $(card).attr("class").split(" ")[0],
@@ -243,7 +243,12 @@ class User {
       $("#bonus-point").text(countPutted);
       if (countPutted >= 5) {
         $("#fire").fadeIn();
-        $("#bonus-point").click();
+
+         // Fire sound
+        let fireSound = document.getElementById("fire-sound");
+        fireSound.currentTime = 0.5;
+        fireSound.play();
+
       }
     }
   }

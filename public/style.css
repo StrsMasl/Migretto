@@ -15,8 +15,8 @@ body {
 /* New Game or Join  */
 
 .background {
-  background: #007bff;
-  background: linear-gradient(to right, #0062e6, #33aeff);
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
+  background: radial-gradient(circle at 50% 0%, #212121, #4f4f4f);
 }
 
 :root {
@@ -27,8 +27,15 @@ body {
 .card-signin {
   border: 0;
   border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   overflow: hidden !important;
+  color: white;
+  font-weight: 800 !important;
+  background: rgb(210 210 210 / 41%) !important;
+  box-shadow: 0 8px 32px 0 rgb(123 123 123 / 37%) !important;
+  backdrop-filter: blur(11.5px);
+  -webkit-backdrop-filter: blur(11.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .card-signin .card-title {
@@ -78,7 +85,6 @@ body {
   margin-bottom: 0;
   /* Override default `<label>` margin */
   line-height: 1.5;
-  color: #495057;
   border: 1px solid transparent;
   border-radius: 0.25rem;
   transition: all 0.1s ease-in-out;
@@ -116,15 +122,47 @@ body {
   color: #777;
 }
 
+.form-control {
+  color: #ffffff !important;
+  background-color: #7b7b7b !important;
+}
+
 .btn-google {
   color: white !important;
   background-color: #ea4335 !important;
 }
 
+/* POINTS */
+
+#points-div {
+  position: absolute;
+  z-index: 1100;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.overlay {
+  background-color: rgba(253, 253, 253, 0.44);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1099;
+}
+
+.badge-pill{
+  font-size: large !important;
+}
+
+.points-color {
+  background: none !important;
+}
+
 /* Opposers section & Table */
 
-.cards-opponents{
-  text-align: initial; 
+.cards-opponents {
+  text-align: initial;
   display: flex;
 }
 
@@ -153,7 +191,7 @@ body {
   border-radius: 7px;
   padding: 10px 5px;
   background: rgba(255, 103, 103, 0.45);
-  box-shadow:0 8px 32px 0 rgb(202 200 178 / 37%);
+  box-shadow: 0 8px 32px 0 rgb(202 200 178 / 37%);
   backdrop-filter: blur(11.5px);
   -webkit-backdrop-filter: blur(11.5px);
   border-radius: 10px;
@@ -226,7 +264,7 @@ body {
   margin-left: 5px;
   z-index: 1000;
   font-size: larger !important;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .yellow {
@@ -270,10 +308,10 @@ body {
   border-radius: 5px;
   background: rgb(210 210 210 / 41%);
   box-shadow: 0 8px 32px 0 rgb(123 123 123 / 37%);
-  backdrop-filter: blur( 11.5px );
-  -webkit-backdrop-filter: blur( 11.5px );
+  backdrop-filter: blur(11.5px);
+  -webkit-backdrop-filter: blur(11.5px);
   border-radius: 10px;
-  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  border: 1px solid rgba(255, 255, 255, 0.18);
   width: 100px;
   font-size: larger !important;
 }
@@ -288,7 +326,7 @@ body {
 }
 
 .deck-cards {
-  padding: .5rem;
+  padding: 0.5rem;
   font-weight: 800;
   user-select: none;
   background-color: #a2a2a2;
@@ -359,10 +397,10 @@ body {
   border-radius: 5px;
   background: rgb(210 210 210 / 41%);
   box-shadow: 0 8px 32px 0 rgb(123 123 123 / 37%);
-  backdrop-filter: blur( 11.5px );
-  -webkit-backdrop-filter: blur( 11.5px );
+  backdrop-filter: blur(11.5px);
+  -webkit-backdrop-filter: blur(11.5px);
   border-radius: 10px;
-  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  border: 1px solid rgba(255, 255, 255, 0.18);
   width: 100px;
   font-size: larger !important;
 }
@@ -641,7 +679,7 @@ body {
 
 /* Tablet */
 @media only screen and (max-width: 900px) {
-  .cards-opponents{
+  .cards-opponents {
     display: inline-block !important;
   }
   .card-user {
@@ -723,10 +761,10 @@ body {
     flex: none !important;
     max-width: none !important;
   }
-  .parent-all{
+  .parent-all {
     height: 100%;
   }
-  #table{
+  #table {
     height: 55% !important;
   }
   .center-table {
@@ -841,16 +879,16 @@ body {
   .left-main-col {
     height: 35% !important;
   }
-  .parent-all{
+  .parent-all {
     height: 100%;
   }
-  #bonus-sec{
+  #bonus-sec {
     display: none;
   }
-  #table{
+  #table {
     height: 65% !important;
   }
-  .cards-opponents{
+  .cards-opponents {
     display: flex !important;
   }
   .center-table {
