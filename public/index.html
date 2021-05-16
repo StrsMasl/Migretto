@@ -78,34 +78,14 @@
         <!-- GAME TABLE - USER CARDS - OPPONENTS -->
 
         <!-- Enemies - Table - User -->
-        <div style="display: none;" class="row fade-together text-center h-100">
+        <div style="display: none;" class="row parent-all fade-together text-center h-100">
 
             <!-- Enemies  -->
-            <div style="overflow-y: scroll; overflow-x: hidden;" class="left-main-col col-3 h-100">
+            <div style="overflow-y: scroll; overflow-x: hidden;" class="left-main-col col-3">
                 <div id="enemies-div">
                     <div class="oppo-play-div">
-                        <h6>Player 2</h6>
-                        <div style="text-align: initial; display: flex;">
-                            <div class="oppo-cards deck-cards text-center">10</div>
-                            <div class="red oppo-cards card-user text-center">2</div>
-                            <div class="blue oppo-cards card-user text-center">3</div>
-                            <div class="red oppo-cards card-user text-center">4</div>
-                            <div class="yellow oppo-cards card-user text-center">5</div>
-                        </div>
-                    </div>
-                    <div class="oppo-play-div">
-                        <h6>Player 3</h6>
-                        <div style="text-align: initial; display: flex;">
-                            <div class="oppo-cards deck-cards text-center">10</div>
-                            <div class="red oppo-cards card-user text-center">2</div>
-                            <div class="blue oppo-cards card-user text-center">3</div>
-                            <div class="red oppo-cards card-user text-center">4</div>
-                            <div class="yellow oppo-cards card-user text-center">5</div>
-                        </div>
-                    </div>
-                    <div class="oppo-play-div">
-                        <h6>Player 4</h6>
-                        <div style="text-align: initial; display: flex;">
+                        <h6 style="color: white;">Player 2</h6>
+                        <div class="cards-opponents">
                             <div class="oppo-cards deck-cards text-center">10</div>
                             <div class="red oppo-cards card-user text-center">2</div>
                             <div class="blue oppo-cards card-user text-center">3</div>
@@ -120,8 +100,7 @@
             <div id="table" class="col h-100">
 
                 <!-- Table -->
-                <div class="h-75 center-table">
-
+                <div class="center-table">
                     <!-- Row 1 -->
                     <div id="slots-1" class="slot-row d-flex justify-content-center flex-row">
                     </div>
@@ -132,12 +111,12 @@
                 </div>
 
                 <!-- User -->
-                <div id="user" style="display: none;" class="removable user-cards fade-together row text-center h-25">
+                <div id="user" style="display: none;" class="removable user-cards fade-together row text-center">
 
                     <!-- Deck -->
                     <div class="col-4 cards-pad">
                         <div id="deck-col" class="d-flex flex-row h-100">
-                            <div id="deck" class="deck-cards text-center p-2 h-100">0</div>
+                            <div id="deck" class="deck-cards text-center h-100">0</div>
                             <div id="deck-col-add" class="d-flex flex-row h-100">
                             </div>
                         </div>
@@ -146,13 +125,30 @@
                     <!-- 14 Cards -->
                     <div class="col-6 cards-pad">
                         <div id="user-cards" class="d-flex flex-row h-100">
-                            <div id="deckImp" class="deck-cards text-center p-2 h-100">0</div>
+                            <div id="deckImp" class="deck-cards text-center h-100">0</div>
                         </div>
                     </div>
 
                     <!-- Space for Bonus -->
-                    <div class="col-2 cards-pad">
-
+                    <div style="margin-top: auto; margin-bottom: auto;" id="bonus-sec" class="col-2 cards-pad">
+                        <div id="bonus-point" style="display: none; z-index: 1100;" class="bonus"></div>
+                        <div style="display: none;" id="fire" class="fire">
+                            <div class="fire-left">
+                                <div class="main-fire"></div>
+                                <div class="particle-fire"></div>
+                            </div>
+                            <div class="fire-main">
+                                <div class="main-fire"></div>
+                                <div class="particle-fire"></div>
+                            </div>
+                            <div class="fire-right">
+                                <div class="main-fire"></div>
+                                <div class="particle-fire"></div>
+                            </div>
+                            <div class="fire-bottom">
+                                <div class="main-fire"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
