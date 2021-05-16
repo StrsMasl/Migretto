@@ -351,10 +351,20 @@ body {
 }
 
 .deck-empty {
+  color: white;
   font-weight: 800;
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='5' ry='5' stroke='black' stroke-width='9' stroke-dasharray='15%2c 15%2c 1' stroke-dashoffset='10' stroke-linecap='square'/%3e%3c/svg%3e");
+  padding: 0.5rem;
+  user-select: none;
+  margin-left: 5px;
   border-radius: 5px;
+  background: rgb(210 210 210 / 41%);
+  box-shadow: 0 8px 32px 0 rgb(123 123 123 / 37%);
+  backdrop-filter: blur( 11.5px );
+  -webkit-backdrop-filter: blur( 11.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
   width: 100px;
+  font-size: larger !important;
 }
 
 #put-card {
