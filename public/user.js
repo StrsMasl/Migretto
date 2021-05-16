@@ -42,6 +42,7 @@ class User {
 
       $domRow.children().eq(0).after(div);
 
+      this.updateDeckCard($domRow);
       // Collect info from DOM before send to Server
       let arrSendCard = []
       $('#user-cards').children().each((i,val) => {
@@ -50,10 +51,11 @@ class User {
           $(val).attr("class").split(" ")[0],
         ])
       })
+   socket.emit("from14", null, null, this.room, this.name, arrSendCard); // Send info to server
+  
 
-      socket.emit("from14", null, null, this.room, this.name, arrSendCard); // Send info to server
-    }
-    this.updateDeckCard($domRow);
+      }
+   
   }
 
   updateDeckCard($domRow) {
@@ -121,19 +123,21 @@ class User {
       if (table.addOnTop(cardArr, $(where))) {
         cardArr = this.firstForteen.splice(index, 1).pop();
 
-        // Collect info from DOM before send to Server
-        let arrSendCard = []
-        $('#user-cards').children().each((i,val) => {
-          arrSendCard.push([
-            Number.parseInt($(val).text()),
-            $(val).attr("class").split(" ")[0],
-          ])
-        })
-
-        socket.emit("from14", cardArr, where.id, this.room, this.name, arrSendCard); // Send info to server
-
+     
         $(".slot-table").removeClass("selected");
         card.remove();
+
+           // Collect info from DOM before send to Server
+           let arrSendCard = []
+           $('#user-cards').children().each((i,val) => {
+             arrSendCard.push([
+               Number.parseInt($(val).text()),
+               $(val).attr("class").split(" ")[0],
+             ])
+           })
+   
+           socket.emit("from14", cardArr, where.id, this.room, this.name, arrSendCard); // Send info to server
+   
 
         // Change color user table
         let userTableClasses = $("#user").attr("class").split(" ");

@@ -36,7 +36,12 @@ io.on('connection', socket => {
 
     socket.on('from14', (cardArr, where, room, name, cards) => {
       console.log(cardArr, where)
-      io.to(room).emit('placeFrom14', cardArr, where, name, cards);
+      if (cardArr !== null){
+      io.to(room).emit('placeFrom14', cardArr, where);
+    }
+      io.to(room).emit('changeEnemies', name, cards);
+     
+      
     })
     
 

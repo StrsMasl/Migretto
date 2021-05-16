@@ -8,9 +8,18 @@ let socket = io();
 let code;
 socket.on('gameCode', handleGameCode);
 
+
+
+socket.on("changeEnemies", (name, cards) => {
+  if (name !== Person) {
+    console.log(name,cards)
+  }
+  
+ 
+});
 // Server Place Card from 14 deck
-socket.on("placeFrom14", (card, where, name, cards) => {
-  console.log(cards)
+socket.on("placeFrom14", (card, where) => {
+  
   // Show card on Table & prepend class
   let where1 = $(document).find(`#${where}`);
   let classes = where1.attr("class");
