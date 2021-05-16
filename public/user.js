@@ -1,3 +1,5 @@
+let countPutted = 0;
+
 class User {
   constructor(deck, name, room) {
     this.room = room;
@@ -21,7 +23,7 @@ class User {
     for (let j = 0; j < 4; j++) {
       let div = $("<div></div>")
         .addClass(cards[j][1])
-        .addClass("single-card card-user p-2 h-100")
+        .addClass("single-card card-user h-100")
         .text(cards[j][0]);
       $domRow.append(div);
     }
@@ -35,7 +37,7 @@ class User {
 
       let div = $("<div></div>")
         .addClass(card[1])
-        .addClass("single-card card-user p-2 h-100")
+        .addClass("single-card card-user h-100")
         .text(card[0]);
 
       $domRow.children().eq(0).after(div);
@@ -51,7 +53,7 @@ class User {
         .children()
         .eq(0)
         .removeClass()
-        .addClass("deck-empty text-center p-2 h-100")
+        .addClass("deck-empty text-center h-100")
         .text(0);
     } else {
       $domRow.children().eq(0).text(count);
@@ -76,12 +78,10 @@ class User {
 
         // Change color user table
         let userTableClasses = $("#user").attr("class").split(" ");
-        $("#user").removeClass()
+        $("#user").removeClass();
         if (cardArr[1] === "yellow") {
           userTableClasses.shift();
-          $("#user")
-            .addClass("yellowSha")
-            .addClass(userTableClasses.join(" "));
+          $("#user").addClass("yellowSha").addClass(userTableClasses.join(" "));
         } else if (cardArr[1] === "red") {
           userTableClasses.shift();
           $("#user").addClass("redSha").addClass(userTableClasses.join(" "));
@@ -97,6 +97,8 @@ class User {
         $(".slot-table").removeClass("selected");
         card.remove();
         socket.emit("fromRest", cardArr, where.id, this.room); // Send info to server
+
+        this.onFire();
       }
     } else {
       index = this.firstForteen.indexOfForArrays(cardRec);
@@ -111,12 +113,10 @@ class User {
 
         // Change color user table
         let userTableClasses = $("#user").attr("class").split(" ");
-        $("#user").removeClass()
+        $("#user").removeClass();
         if (cardArr[1] === "yellow") {
           userTableClasses.shift();
-          $("#user")
-            .addClass("yellowSha")
-            .addClass(userTableClasses.join(" "));
+          $("#user").addClass("yellowSha").addClass(userTableClasses.join(" "));
         } else if (cardArr[1] === "red") {
           userTableClasses.shift();
           $("#user").addClass("redSha").addClass(userTableClasses.join(" "));
@@ -132,6 +132,8 @@ class User {
         if (this.firstForteen.length === 3) {
           socket.emit("winner", this.name, this.room);
         }
+
+        this.onFire();
       }
     }
   }
@@ -157,11 +159,51 @@ class User {
 
         let div = $("<div></div>")
           .addClass(card[1])
-          .addClass("single-card card-user p-2 h-100")
+          .addClass("single-card card-user h-100")
           .text(card[0])
           .css("margin-left", "-30px");
         $domCol.append(div);
       }
     }, 200);
+  }
+
+  onFire() {
+    countPutted++;
+
+    if (countPutted === 1) {
+      $("#bonus-point").text(1);
+      $("#bonus-point").toggle({
+        effect: "scale",
+        direction: "horizontal",
+      });
+      let timer = 10000;
+      let idInter = setInterval(function () {
+        countPutted--;
+
+        if(timer > 5000) timer-=1000 // Timer is faster every time until 5 sec
+
+        $("#bonus-point").text(countPutted); // Add number in DOM
+
+        if (countPutted <= 0) { // Stop timer and hide in DOM
+          clearInterval(idInter);
+          $("#bonus-point").toggle({
+            effect: "scale",
+            direction: "horizontal",
+          });
+
+        } else if (countPutted < 5) { // FadeOut fire if less then 5
+          $("#fire").fadeOut()
+        }
+      }, timer);
+
+    } else if (countPutted > 1) {
+
+      $("#bonus-point").text(countPutted);
+      if (countPutted >= 5) {
+        $("#fire").fadeIn()
+        $("#bonus-point").click()
+      }
+
+    }
   }
 }

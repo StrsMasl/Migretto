@@ -5,11 +5,9 @@ Array.prototype.indexOfForArrays = function (search) {
   return arrJson.indexOf(searchJson);
 };
 
-let user, table;
-
 class Table {
-  constructor(totalPlayers) {
-    this.countCards = 0;
+  constructor(totalPlayers, playersName = []) {
+    this.playersName = playersName
     this.maxCards = totalPlayers * 4;
     this.topOnTable = [];
   };
@@ -55,11 +53,14 @@ class Table {
     where.animate({ opacity: 0.7 }, 1000);
   };
 
-  showOpponents (parent, players = []) {
-
-    players.forEach( val =>{
-      // parent.
+  showOpponents (parent) {
+    this.playersName.forEach( val =>{
+      let cards = $('<div></div>').addClass('cards-opponents')
+      let name = $('<h6></h6>').css('color', 'white').text(val)
+      let divFinal = $('<div></div>').addClass('oppo-play-div')
+      divFinal.append(name)
+      divFinal.append(cards)
+      parent.append(divFinal)
     });
-
   };
 }
