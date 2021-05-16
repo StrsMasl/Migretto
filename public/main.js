@@ -12,10 +12,8 @@ socket.on('gameCode', handleGameCode);
 
 socket.on("changeEnemies", (name, cards) => {
   if (name !== Person) {
-    console.log(name,cards)
+    table.updateMove(name, cards)
   }
-  
- 
 });
 // Server Place Card from 14 deck
 socket.on("placeFrom14", (card, where) => {
@@ -49,8 +47,7 @@ socket.on("placeFromRest", (card, where) => {
   if (card[0] === 10) this.lockTen(where1);
 });
 
-function handleGameCode(gameCode, PlayerOne) {
-  console.log(gameCode)
+function handleGameCode(gameCode) {
   $('#gameCodeDisplay').html(gameCode);
   code = gameCode;
 }
@@ -71,6 +68,7 @@ $("#joinGameButton").click(function () {
 
   code = gameCodeInput.value;
   Person = prompt("Please enter your name", "");
+  if(Person === '') Person = 'Guest'
   socket.emit("joinGame", code, Person);
   $("#new-game-div").fadeOut();
   setTimeout(() => {

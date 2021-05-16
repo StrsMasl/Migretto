@@ -6,8 +6,8 @@ Array.prototype.indexOfForArrays = function (search) {
 };
 
 class Table {
-  constructor(totalPlayers, playersName = []) {
-    this.playersName = playersName
+  constructor(totalPlayers, otherPlayersName) {
+    this.otherPlayersName = otherPlayersName
     this.maxCards = totalPlayers * 4;
     this.topOnTable = [];
   };
@@ -54,8 +54,8 @@ class Table {
   };
 
   showOpponents (parent) {
-    this.playersName.forEach( val =>{
-      let cards = $('<div></div>').addClass('cards-opponents')
+    this.otherPlayersName.forEach( val =>{
+      let cards = $('<div></div>').addClass('cards-opponents').attr('id', val)
       let name = $('<h6></h6>').css('color', 'white').text(val)
       let divFinal = $('<div></div>').addClass('oppo-play-div')
       divFinal.append(name)
@@ -63,4 +63,19 @@ class Table {
       parent.append(divFinal)
     });
   };
-}
+
+  updateMove (name, cards) { 
+    let parent = $('#enemies-div').find(`#${name}`); // Get parent from DOM
+    parent.empty(); // Clean parent for re-build
+
+    cards.forEach(val => {
+      if(val[1] === "deck-cards") {
+        let card = $('<div></div>').addClass('oppo-cards deck-cards text-center').text(val[0]);
+        parent.append(card);
+      } else {
+        let card = $('<div></div>').addClass(val[1]).addClass('oppo-cards card-user text-center').text(val[0]);
+        parent.append(card);
+      };
+    });
+  };
+};
