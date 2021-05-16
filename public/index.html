@@ -21,6 +21,11 @@
 <body>
     <div style="overflow: auto;" class="main-row background h-100">
 
+        <!-- NEW GAME & ROOM MUSIC -->
+        <audio id="elevet-music" loop>
+            <source src="SoundEffects/yt1s.com - Elevator Music.mp3" type ="audio/mp3">
+        </audio>
+
         <!-- FIRST PAGE - ROOMS -->
         <div id="start-div">
             <!-- FIRST PAGE NEW GAME & JOIN -->
@@ -147,7 +152,10 @@
         </div>
 
     </div>
-
+    <script>
+        var audio = document.getElementById("elevet-music");
+        audio.volume = 0.1;
+    </script>
 </body>
 
 <script src="/socket.io/socket.io.js"></script>
