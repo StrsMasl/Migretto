@@ -1,6 +1,7 @@
 let Person; // Player Name
 let Playlerlist;
 let PlayerListVar;
+let user, table;
 
 let socket = io();
 
@@ -53,14 +54,6 @@ socket.on("startGame", (data, Players) => {
     return `<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${value}</dl>`;
   });
   $("#Playerlist").html(newHTML);
-
-  /*    PlayerListVar.forEach(main);
-      $('#Playerlist').html = PlayerListVar
-  
-      function main(arrayItem) {
-          return "<br/><span>" + arrayItem + "</span> "
-      }
-    */
 });
 
 $("#joinGameButton").click(function () {
@@ -111,9 +104,10 @@ socket.on('startGameNow', () => {
   $("#start-div").fadeOut();
   user = new User(new Deck(),Person, code);
 
-  // If there are other Players pass the number of it to table
+  // If there are other Players pass the number and the array
   if(PlayerListVar){
-    table = new Table(PlayerListVar.length);
+    table = new Table(PlayerListVar.length, PlayerListVar);
+    table.showOpponents($('#enemies-div'))
   } else {
     table = new Table(1);
   }
