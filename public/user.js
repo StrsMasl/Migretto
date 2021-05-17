@@ -41,6 +41,7 @@ class User {
   }
 
   doubleClickDeck($domRow) {
+    console.log($domRow)
     if ($domRow.children().length < 5) {
       let card = this.firstForteen.pop();
       this.firstForteen.unshift(card);
@@ -172,6 +173,7 @@ class User {
         }
 
         // Everytime a card is added check if user win game
+        // WIN FAST: socket.emit("winner", 'name', code);
         if (this.firstForteen.length === 3) {
           socket.emit("winner", this.name, this.room);
         }
@@ -234,14 +236,15 @@ class User {
             effect: "scale",
             direction: "horizontal",
           });
-        } else if (countPutted < 5) {
+        } else if (countPutted < 9) {  // <---- THIS NUMBER DECIDE TO REMOVE FIRE
           // FadeOut fire if less then 5
           $("#fire").fadeOut();
         }
       }, timer);
     } else if (countPutted > 1) {
       $("#bonus-point").text(countPutted);
-      if (countPutted >= 5) {
+
+      if (countPutted >= 10) { // <---- THIS NUMBER DECIDE TO ADD FIRE
         $("#fire").fadeIn();
 
          // Fire sound

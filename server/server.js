@@ -2,6 +2,7 @@ const path = require("path");
 const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
+const { ifError } = require("assert");
 
 const publicPath = path.join(__dirname, "/../public");
 const port = process.env.PORT || 3000;
@@ -17,7 +18,7 @@ server.listen(port, () => {
 const state = {};
 const clientRooms = {};
 const Players = {};
-let pointsArr = []
+let pointsObj = {};
 
 io.on("connection", (socket) => {
   console.log(io.sockets.adapter.rooms);
@@ -27,13 +28,25 @@ io.on("connection", (socket) => {
   socket.on("startGameTogether", startGameNow);
 
   socket.on("winner", (name, room) => {
+    if (pointsObj[room] === undefined) pointsObj[room] = [];
+    console.log(pointsObj);
     io.to(room).emit("getPoints", name); // Collect Point
   });
 
-  socket.on('points', (firstForteen, deck, name, room, winnerName) => {
-    pointsArr.push([name, firstForteen, deck])
-    io.to(room).emit("winner", pointsArr, winnerName);
-  })
+  socket.on("points", (points, name, room, winnerName) => {
+    // Search if there are already points saved for the player
+    let indexPersonPoints;
+    pointsObj[room].forEach((val, i) => {
+      if (val[0] === name) indexPersonPoints = i;
+    });
+    
+    // If name is found sum points else push name and points
+    if (indexPersonPoints !== undefined) {
+      pointsObj[room][indexPersonPoints][1] += points;
+    } else pointsObj[room].push([name, points]);
+
+    io.to(room).emit("winner", pointsObj[room], winnerName);
+  });
 
   socket.on("showPoints", (name, room) => {
     io.to(room).emit("winner", name);
@@ -58,17 +71,17 @@ io.on("connection", (socket) => {
     }) */
 
   function handleJoinGame(roomName, Person) {
-    if(Players[roomName] !== undefined) {
+    if (Players[roomName] !== undefined) {
       Players[roomName].push(Person);
       console.log(Players);
       console.log(io.sockets.adapter.rooms.get(roomName).size);
       const room = io.sockets.adapter.rooms.has(roomName);
-  
+
       let numClients = 0;
       if (room) {
         numClients = io.sockets.adapter.rooms.get(roomName).size;
       }
-  
+
       if (numClients === 0) {
         console.log("unknown Code");
         io.emit("unknownCode");
@@ -79,15 +92,15 @@ io.on("connection", (socket) => {
         return;
       }
       clientRooms[socket.id] = roomName;
-  
+
       socket.join(roomName);
       socket.number = io.sockets.adapter.rooms.get(roomName).size;
-  
+
       io.to(roomName).emit(
         "startGame",
         io.sockets.adapter.rooms.get(roomName).size,
         Players[roomName]
-      );  
+      );
     }
   }
 
