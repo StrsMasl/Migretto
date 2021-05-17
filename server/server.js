@@ -55,6 +55,7 @@ io.on("connection", (socket) => {
 
   socket.on("from14", (cardArr, where, room, name, cards) => {
     if (cardArr !== null) {
+
       let index
       console.log(fireObj[room][0])
       console.log(cardArr, where);
@@ -70,12 +71,14 @@ io.on("connection", (socket) => {
 
 
       io.to(room).emit("placeFrom14", cardArr, where,fireObj[room][index].score, name);
+
     }
 
     io.to(room).emit("changeEnemies", name, cards);
   });
 
   socket.on("fromRest", (cardArr, where, room, name) => {
+
     let index
     
     for (i = 0; i < Players[room].length; i++) {
@@ -88,6 +91,7 @@ io.on("connection", (socket) => {
       }
     }
     io.to(room).emit("placeFromRest", cardArr, where,fireObj[room][index].score, name);
+
   });
 
   /*    socket.on('startGame', () => {
@@ -128,6 +132,8 @@ io.on("connection", (socket) => {
         io.sockets.adapter.rooms.get(roomName).size,
         Players[roomName]
       );
+    } else {
+      io.to(socket.io).emit('noRoomFound', Person, roomName)
     }
   }
 

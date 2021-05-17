@@ -41,7 +41,6 @@ class User {
   }
 
   doubleClickDeck($domRow) {
-    console.log($domRow)
     if ($domRow.children().length < 5) {
       let card = this.firstForteen.pop();
       this.firstForteen.unshift(card);
@@ -84,7 +83,6 @@ class User {
   }
 
   putCard(card, where) {
-    console.log(this.name, this.room);
     let cardRec = [
         Number.parseInt($(card).text()),
         $(card).attr("class").split(" ")[0],
@@ -212,12 +210,14 @@ class User {
     }, 200);
   }
 
+
   onFire(fire,name) {
     if (fire < 3 && $("#fire").css("display") !== "none") { 
     $("#bonus-point").fadeOut()
     $("#fire").fadeOut();
     } else
       if (fire >= 3) { // <---- THIS NUMBER DECIDE TO ADD FIRE
+
         $("#fire").fadeIn();
 
          // Fire sound
