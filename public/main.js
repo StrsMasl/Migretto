@@ -109,14 +109,15 @@ $("#repeat-btn").click(function () {
 
 socket.on("startGameNow", () => {
   if (round > 0) {
+    console.log("Clearing DOM");
     clearDOM();
+  } else {
+    // Stop Music
+    $("#elevet-music").animate({ volume: 0 }, 2000, function () {
+      this.pause(); // Stop playing
+      this.currentTime = 0; // Reset time
+    });
   }
-
-  // Stop Music
-  $("#elevet-music").animate({ volume: 0 }, 2000, function () {
-    this.pause(); // Stop playing
-    this.currentTime = 0; // Reset time
-  });
 
   if (PlayerListVar) {
     OtherPlayers = PlayerListVar.slice();
@@ -181,23 +182,24 @@ $(".user-cards").on("click", ".single-card", function () {
 });
 
 // Click deck
-$("#deckImp").click(function () {
+$(document).on('click', '.deckImp', function () {
+  console.log(user)
   user.doubleClickDeck($("#user-cards"));
 });
 
 // Send Point to server
 socket.on("getPoints", (name) => {
+  let points = 26 - user.deck.length - user.firstForteen.length * 2;
   socket.emit(
     "points",
-    user.firstForteen.length,
-    user.deck.length,
+    points,
     user.name,
     user.room,
     name
   );
 });
 
-// Show points on client           NOT WORKIN PROPERLY
+// Show points on client
 let count = 0;
 socket.on("winner", (pointsArr, winnerName) => {
   if (count === PlayerListVar.length - 1) {
@@ -206,10 +208,9 @@ socket.on("winner", (pointsArr, winnerName) => {
     $("#name-winner").text(`${winnerName} won!`);
 
     pointsArr.forEach((val) => {
-      let resultPoint = (val[2] - 26) - val[1] * 2
       let span = $("<span></span>")
         .addClass("badge badge-pill")
-        .text(resultPoint);
+        .text(val[1]);
       let li = $("<li></li>")
         .addClass(
           "points-color list-group-item d-flex justify-content-between align-items-center"
@@ -217,18 +218,17 @@ socket.on("winner", (pointsArr, winnerName) => {
         .text(val[0]);
       li.append(span);
 
-      if ($("#players-points").children().length === 0) $("#players-points").append(li);
+      if ($("#players-points").children().length === 0)
+        $("#players-points").append(li);
       else {
         $("#players-points")
           .children()
           .each((i, valIn) => {
-            debugger
             let pointsToParse = $(valIn).children().eq(0).text();
-            debugger
             let points = Number.parseInt(pointsToParse);
 
-            if (points >= resultPoint) $(valIn).after(li)
-            else $(valIn).before(li)
+            if (points >= val[1]) $(valIn).after(li);
+            else $(valIn).before(li);
           });
       }
     });
@@ -238,14 +238,20 @@ socket.on("winner", (pointsArr, winnerName) => {
 });
 
 function clearDOM() {
+
+  let userTableClasses = $("#user").attr("class").split(" ");
+  $("#user").removeClass();
+  userTableClasses.shift();
+  $("#user").addClass("removable").addClass(userTableClasses.join(" "));
+
   $("#enemies-div").empty();
-  $('#overlay').hide();
-  $('#points-div').hide();
+  $("#overlay").hide();
+  $("#points-div").hide();
   $("#players-points").empty();
   $("#deck-col-add").empty();
   $("#slots-1").empty();
   $("#slots-2").empty();
-  let deck14 = $("#deckImp");
+  let deck14 = $(".deckImp").eq(0);
   $("#user-cards").empty();
   $("#user-cards").append(deck14);
   count = 0;

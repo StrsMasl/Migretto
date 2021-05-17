@@ -143,7 +143,7 @@ body {
 }
 
 .overlay {
-  background-color: rgba(253, 253, 253, 0.44);
+  background-color: rgb(4 43 64 / 60%) !important;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -156,6 +156,14 @@ body {
 
 .points-color {
   background: none !important;
+}
+
+.list-group-item {
+  padding: .50rem .50rem !important;
+}
+
+#name-winner{
+  margin-bottom: 20px;
 }
 
 /* Opposers section & Table */
@@ -934,7 +942,7 @@ body {
 }
 
 /* Phone horizontal */
-@media only screen and (max-height: 600px) {
+@media only screen and (min-height: 600px) {
   #enemies-div {
     display: block;
   }
