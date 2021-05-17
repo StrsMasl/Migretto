@@ -210,47 +210,24 @@ class User {
     }, 200);
   }
 
-  onFire() {
-    countPutted++;
 
-    if (countPutted === 1) {
-      $("#bonus-point").text(1);
-      $("#bonus-point").toggle({
-        effect: "scale",
-        direction: "horizontal",
-      });
-      let timer = 5000;
-      let idInter = setInterval(function () {
-        countPutted--;
+  onFire(fire,name) {
+    if (fire < 3 && $("#fire").css("display") !== "none") { 
+    $("#bonus-point").fadeOut()
+    $("#fire").fadeOut();
+    } else
+      if (fire >= 3) { // <---- THIS NUMBER DECIDE TO ADD FIRE
 
-        if (timer > 2000) timer -= 1000; // Timer is faster every time until 2 sec
-
-        $("#bonus-point").text(countPutted); // Add number in DOM
-
-        if (countPutted <= 0) {
-          // Stop timer and hide in DOM
-          clearInterval(idInter);
-          $("#bonus-point").toggle({
-            effect: "scale",
-            direction: "horizontal",
-          });
-        } else if (countPutted < 9) {  // <---- THIS NUMBER DECIDE TO REMOVE FIRE
-          // FadeOut fire if less then 5
-          $("#fire").fadeOut();
-        }
-      }, timer);
-    } else if (countPutted > 1) {
-      $("#bonus-point").text(countPutted);
-
-      if (countPutted >= 10 && $('#bonus-point').css('display') !== 'none') { // <---- THIS NUMBER DECIDE TO ADD FIRE (prevent sound and fire on p)
         $("#fire").fadeIn();
 
          // Fire sound
         let fireSound = document.getElementById("fire-sound");
         fireSound.currentTime = 0.5;
         fireSound.play();
+        $("#bonus-point").text(name)
+        $("#bonus-point").fadeIn()
 
-      }
+      
     }
   }
 }

@@ -16,7 +16,10 @@ socket.on("changeEnemies", (name, cards) => {
 });
 
 // Server Place Card from 14 deck
-socket.on("placeFrom14", (card, where, name) => {
+
+socket.on("placeFrom14", (card, where, fire, name) => {
+  console.log("fire " + fire)
+
   // Show card on Table & prepend class
   let where1 = $(document).find(`#${where}`);
   let classes = where1.attr("class");
@@ -28,7 +31,10 @@ socket.on("placeFrom14", (card, where, name) => {
 });
 
 // Server Place Card from normal deck
-socket.on("placeFromRest", (card, where, name) => {
+
+socket.on("placeFromRest", (card, where, fire, name) => {
+  console.log("fire " + fire)
+
   // Show card on Table & prepend class
   let where1 = $(document).find(`#${where}`);
   let classes = where1.attr("class");
@@ -37,6 +43,10 @@ socket.on("placeFromRest", (card, where, name) => {
   where1.removeClass().addClass(card[1]).addClass(classes).text(card[0]);
 
   if (card[0] === 10) this.lockTen(where1);
+
+ 
+    user.onFire(fire,name)
+  
 });
 
 function handleGameCode(gameCode) {
