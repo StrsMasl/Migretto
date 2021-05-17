@@ -234,14 +234,15 @@ class User {
             effect: "scale",
             direction: "horizontal",
           });
-        } else if (countPutted < 5) {
+        } else if (countPutted < 9) {  // <---- THIS NUMBER DECIDE TO REMOVE FIRE
           // FadeOut fire if less then 5
           $("#fire").fadeOut();
         }
       }, timer);
     } else if (countPutted > 1) {
       $("#bonus-point").text(countPutted);
-      if (countPutted >= 5) {
+
+      if (countPutted >= 10) { // <---- THIS NUMBER DECIDE TO ADD FIRE
         $("#fire").fadeIn();
 
          // Fire sound
