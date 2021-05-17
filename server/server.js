@@ -101,6 +101,8 @@ io.on("connection", (socket) => {
         io.sockets.adapter.rooms.get(roomName).size,
         Players[roomName]
       );
+    } else {
+      io.to(socket.id).emit('noRoomFound', Person, roomName)
     }
   }
 

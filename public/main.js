@@ -45,10 +45,23 @@ function handleGameCode(gameCode) {
 socket.on("startGame", (data, Players) => {
   PlayerListVar = Players;
 
+  $("#new-game-div").fadeOut();
+  setTimeout(() => {
+    $("#PlayersDiv").fadeIn();
+  }, 500);
+
+  let rommMusic = document.getElementById("elevet-music");
+  rommMusic.play(); // Start playing
+  rommMusic.currentTime = 0; // Reset time
+
   var newHTML = $.map(PlayerListVar, function (value) {
     return `<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${value}</dl>`;
   });
   $("#Playerlist").html(newHTML);
+});
+
+socket.on("noRoomFound", (name, room) => {
+  alert(`No room found with code: ${room}. Sorry ${name}! `)
 });
 
 $("#joinGameButton").click(function () {
@@ -60,15 +73,6 @@ $("#joinGameButton").click(function () {
   if (Person === "") Person = "Guest";
 
   socket.emit("joinGame", code, Person);
-
-  $("#new-game-div").fadeOut();
-  setTimeout(() => {
-    $("#PlayersDiv").fadeIn();
-  }, 500);
-
-  let rommMusic = document.getElementById("elevet-music");
-  rommMusic.play(); // Start playing
-  rommMusic.currentTime = 0; // Reset time
 });
 
 // Start Button
