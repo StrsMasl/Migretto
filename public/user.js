@@ -221,11 +221,11 @@ class User {
         effect: "scale",
         direction: "horizontal",
       });
-      let timer = 10000;
+      let timer = 5000;
       let idInter = setInterval(function () {
         countPutted--;
 
-        if (timer > 5000) timer -= 1000; // Timer is faster every time until 5 sec
+        if (timer > 2000) timer -= 1000; // Timer is faster every time until 2 sec
 
         $("#bonus-point").text(countPutted); // Add number in DOM
 
@@ -244,7 +244,7 @@ class User {
     } else if (countPutted > 1) {
       $("#bonus-point").text(countPutted);
 
-      if (countPutted >= 10) { // <---- THIS NUMBER DECIDE TO ADD FIRE
+      if (countPutted >= 10 && $('#bonus-point').css('display') !== 'none') { // <---- THIS NUMBER DECIDE TO ADD FIRE (prevent sound and fire on phones)
         $("#fire").fadeIn();
 
          // Fire sound
