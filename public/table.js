@@ -55,7 +55,7 @@ class Table {
 
   showOpponents(parent) {
     this.otherPlayersName.forEach((val) => {
-      let cards = $("<div></div>").addClass("cards-opponents").attr("id", val);
+      let cards = $("<div></div>").addClass("cards-opponents").attr("id", val.split(' ').join('-'));
       let name = $("<h6></h6>").css("color", "white").text(val);
       let divFinal = $("<div></div>").addClass("oppo-play-div");
       divFinal.append(name);
@@ -65,7 +65,7 @@ class Table {
   }
 
   updateMove(name, cards) {
-    let parent = $("#enemies-div").find(`#${name}`); // Get parent from DOM
+    let parent = $("#enemies-div").find(`#${name.split(' ').join('-')}`); // Get parent from DOM
     parent.empty(); // Clean parent for re-build
 
     cards.forEach((val) => {

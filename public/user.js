@@ -41,7 +41,6 @@ class User {
   }
 
   doubleClickDeck($domRow) {
-    console.log($domRow)
     if ($domRow.children().length < 5) {
       let card = this.firstForteen.pop();
       this.firstForteen.unshift(card);
@@ -84,7 +83,6 @@ class User {
   }
 
   putCard(card, where) {
-    console.log(this.name, this.room);
     let cardRec = [
         Number.parseInt($(card).text()),
         $(card).attr("class").split(" ")[0],
@@ -120,7 +118,7 @@ class User {
         this.showDeck($("#deck"));
         $(".slot-table").removeClass("selected");
         card.remove();
-        socket.emit("fromRest", cardArr, where.id, this.room); // Send info to server
+        socket.emit("fromRest", cardArr, where.id, this.room, this.name); // Send info to server
 
         this.onFire();
       }
@@ -221,11 +219,11 @@ class User {
         effect: "scale",
         direction: "horizontal",
       });
-      let timer = 10000;
+      let timer = 5000;
       let idInter = setInterval(function () {
         countPutted--;
 
-        if (timer > 5000) timer -= 1000; // Timer is faster every time until 5 sec
+        if (timer > 2000) timer -= 1000; // Timer is faster every time until 2 sec
 
         $("#bonus-point").text(countPutted); // Add number in DOM
 
@@ -244,7 +242,7 @@ class User {
     } else if (countPutted > 1) {
       $("#bonus-point").text(countPutted);
 
-      if (countPutted >= 10) { // <---- THIS NUMBER DECIDE TO ADD FIRE
+      if (countPutted >= 10 && $('#bonus-point').css('display') !== 'none') { // <---- THIS NUMBER DECIDE TO ADD FIRE (prevent sound and fire on p)
         $("#fire").fadeIn();
 
          // Fire sound

@@ -55,15 +55,15 @@ io.on("connection", (socket) => {
   socket.on("from14", (cardArr, where, room, name, cards) => {
     console.log(cardArr, where);
     if (cardArr !== null) {
-      io.to(room).emit("placeFrom14", cardArr, where);
+      io.to(room).emit("placeFrom14", cardArr, where, name);
     }
 
     io.to(room).emit("changeEnemies", name, cards);
   });
 
-  socket.on("fromRest", (cardArr, where, room) => {
+  socket.on("fromRest", (cardArr, where, room, name) => {
     console.log(cardArr, where);
-    io.to(room).emit("placeFromRest", cardArr, where);
+    io.to(room).emit("placeFromRest", cardArr, where, name);
   });
 
   /*    socket.on('startGame', () => {
@@ -101,6 +101,8 @@ io.on("connection", (socket) => {
         io.sockets.adapter.rooms.get(roomName).size,
         Players[roomName]
       );
+    } else {
+      io.to(socket.io).emit('noRoomFound', Person, roomName)
     }
   }
 

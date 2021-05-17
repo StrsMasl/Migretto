@@ -16,10 +16,11 @@ socket.on("changeEnemies", (name, cards) => {
 });
 
 // Server Place Card from 14 deck
-socket.on("placeFrom14", (card, where) => {
+socket.on("placeFrom14", (card, where, name) => {
   // Show card on Table & prepend class
   let where1 = $(document).find(`#${where}`);
   let classes = where1.attr("class");
+  console.log(name + 'made move')
 
   where1.removeClass().addClass(card[1]).addClass(classes).text(card[0]);
 
@@ -27,10 +28,11 @@ socket.on("placeFrom14", (card, where) => {
 });
 
 // Server Place Card from normal deck
-socket.on("placeFromRest", (card, where) => {
+socket.on("placeFromRest", (card, where, name) => {
   // Show card on Table & prepend class
   let where1 = $(document).find(`#${where}`);
   let classes = where1.attr("class");
+  console.log(name + 'made move')
 
   where1.removeClass().addClass(card[1]).addClass(classes).text(card[0]);
 
@@ -45,10 +47,23 @@ function handleGameCode(gameCode) {
 socket.on("startGame", (data, Players) => {
   PlayerListVar = Players;
 
+  $("#new-game-div").fadeOut();
+  setTimeout(() => {
+    $("#PlayersDiv").fadeIn();
+  }, 500);
+
+  let rommMusic = document.getElementById("elevet-music");
+  rommMusic.play(); // Start playing
+  rommMusic.currentTime = 0; // Reset time
+
   var newHTML = $.map(PlayerListVar, function (value) {
     return `<dl style='margin-bottom:0px !important;'><i style='margin-right:5px;' class='fas fa-user-astronaut' style='font-size:36px'></i>${value}</dl>`;
   });
   $("#Playerlist").html(newHTML);
+});
+
+socket.on("noRoomFound", (name, room) => {
+  alert(`No room found with code: ${room}. Sorry ${name}! `)
 });
 
 $("#joinGameButton").click(function () {
@@ -60,15 +75,6 @@ $("#joinGameButton").click(function () {
   if (Person === "") Person = "Guest";
 
   socket.emit("joinGame", code, Person);
-
-  $("#new-game-div").fadeOut();
-  setTimeout(() => {
-    $("#PlayersDiv").fadeIn();
-  }, 500);
-
-  let rommMusic = document.getElementById("elevet-music");
-  rommMusic.play(); // Start playing
-  rommMusic.currentTime = 0; // Reset time
 });
 
 // Start Button
@@ -238,6 +244,7 @@ socket.on("winner", (pointsArr, winnerName) => {
   count++;
 });
 
+// Clear DOM
 function clearDOM() {
 
   let userTableClasses = $("#user").attr("class").split(" ");
