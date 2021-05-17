@@ -242,6 +242,7 @@ socket.on("winner", (pointsArr, winnerName) => {
   count++;
 });
 
+// Clear DOM
 function clearDOM() {
 
   let userTableClasses = $("#user").attr("class").split(" ");
