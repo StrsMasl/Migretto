@@ -14,6 +14,7 @@ socket.on("changeEnemies", (name, cards) => {
     table.updateMove(name, cards);
   }
 });
+
 // Server Place Card from 14 deck
 socket.on("placeFrom14", (card, where) => {
   // Show card on Table & prepend class
@@ -22,7 +23,7 @@ socket.on("placeFrom14", (card, where) => {
 
   where1.removeClass().addClass(card[1]).addClass(classes).text(card[0]);
 
-  if (card[0] === 10) user.lockTen(where1);
+  if (card[0] === 10) table.lockTen(where1);
 });
 
 // Server Place Card from normal deck
@@ -245,13 +246,15 @@ function clearDOM() {
   $("#user").addClass("removable").addClass(userTableClasses.join(" "));
 
   $("#enemies-div").empty();
+  $('#bonus-point').text(0)
   $("#overlay").hide();
   $("#points-div").hide();
   $("#players-points").empty();
   $("#deck-col-add").empty();
   $("#slots-1").empty();
   $("#slots-2").empty();
-  let deck14 = $(".deckImp").eq(0);
+
+  let deck14 = $("<div></div>").addClass('deck-cards text-center h-100 deckImp');
   $("#user-cards").empty();
   $("#user-cards").append(deck14);
   count = 0;
