@@ -19,6 +19,7 @@ const state = {};
 const clientRooms = {};
 const Players = {};
 let pointsObj = {};
+let fireObj = {};
 
 io.on("connection", (socket) => {
   console.log(io.sockets.adapter.rooms);
@@ -53,17 +54,40 @@ io.on("connection", (socket) => {
   });
 
   socket.on("from14", (cardArr, where, room, name, cards) => {
-    console.log(cardArr, where);
     if (cardArr !== null) {
-      io.to(room).emit("placeFrom14", cardArr, where);
+      let index
+      console.log(fireObj[room][0])
+      console.log(cardArr, where);
+      for (i = 0; i < Players[room].length; i++) {
+        console.log(fireObj[room][i].score)
+        if (fireObj[room][i].name === name) {
+          fireObj[room][i].score ++
+          index = i
+        } else {
+          fireObj[room][i].score = 0
+        }
+      }
+
+
+      io.to(room).emit("placeFrom14", cardArr, where,fireObj[room][index].score, name);
     }
 
     io.to(room).emit("changeEnemies", name, cards);
   });
 
-  socket.on("fromRest", (cardArr, where, room) => {
-    console.log(cardArr, where);
-    io.to(room).emit("placeFromRest", cardArr, where);
+  socket.on("fromRest", (cardArr, where, room, name) => {
+    let index
+    
+    for (i = 0; i < Players[room].length; i++) {
+      console.log(fireObj[room][i].score)
+      if (fireObj[room][i].name == name) {
+        fireObj[room][i].score ++
+        index = i
+      } else {
+        fireObj[room][i].score = 0
+      }
+    }
+    io.to(room).emit("placeFromRest", cardArr, where,fireObj[room][index].score, name);
   });
 
   /*    socket.on('startGame', () => {
@@ -71,8 +95,11 @@ io.on("connection", (socket) => {
     }) */
 
   function handleJoinGame(roomName, Person) {
+    let PlayerObj = {"name" : Person, "score" : 0}
+    
     if (Players[roomName] !== undefined) {
       Players[roomName].push(Person);
+      fireObj[roomName].push(PlayerObj);
       console.log(Players);
       console.log(io.sockets.adapter.rooms.get(roomName).size);
       const room = io.sockets.adapter.rooms.has(roomName);
@@ -106,6 +133,9 @@ io.on("connection", (socket) => {
 
   function handleNewGame(name) {
     let roomName = makeid(5);
+    let PlayerObj = {"name" : name, "score" : 0}
+    fireObj[roomName] = [];
+    fireObj[roomName].push(PlayerObj);
     Players[roomName] = [];
     Players[roomName].push(name);
 

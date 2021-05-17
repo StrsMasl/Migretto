@@ -120,7 +120,7 @@ class User {
         this.showDeck($("#deck"));
         $(".slot-table").removeClass("selected");
         card.remove();
-        socket.emit("fromRest", cardArr, where.id, this.room); // Send info to server
+        socket.emit("fromRest", cardArr, where.id, this.room, this.name); // Send info to server
 
         this.onFire();
       }
@@ -212,47 +212,22 @@ class User {
     }, 200);
   }
 
-  onFire() {
-    countPutted++;
-
-    if (countPutted === 1) {
-      $("#bonus-point").text(1);
-      $("#bonus-point").toggle({
-        effect: "scale",
-        direction: "horizontal",
-      });
-      let timer = 10000;
-      let idInter = setInterval(function () {
-        countPutted--;
-
-        if (timer > 5000) timer -= 1000; // Timer is faster every time until 5 sec
-
-        $("#bonus-point").text(countPutted); // Add number in DOM
-
-        if (countPutted <= 0) {
-          // Stop timer and hide in DOM
-          clearInterval(idInter);
-          $("#bonus-point").toggle({
-            effect: "scale",
-            direction: "horizontal",
-          });
-        } else if (countPutted < 9) {  // <---- THIS NUMBER DECIDE TO REMOVE FIRE
-          // FadeOut fire if less then 5
-          $("#fire").fadeOut();
-        }
-      }, timer);
-    } else if (countPutted > 1) {
-      $("#bonus-point").text(countPutted);
-
-      if (countPutted >= 10) { // <---- THIS NUMBER DECIDE TO ADD FIRE
+  onFire(fire,name) {
+    if (fire < 3 && $("#fire").css("display") !== "none") { 
+    $("#bonus-point").fadeOut()
+    $("#fire").fadeOut();
+    } else
+      if (fire >= 3) { // <---- THIS NUMBER DECIDE TO ADD FIRE
         $("#fire").fadeIn();
 
          // Fire sound
         let fireSound = document.getElementById("fire-sound");
         fireSound.currentTime = 0.5;
         fireSound.play();
+        $("#bonus-point").text(name)
+        $("#bonus-point").fadeIn()
 
-      }
+      
     }
   }
 }
