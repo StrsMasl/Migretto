@@ -3,8 +3,10 @@ const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
 const { ifError } = require("assert");
-const fs = require("fs");
+const nodemailer = require('nodemailer');
+var smtpTransport = require("nodemailer-smtp-transport");
 let jsonActivity = require("./activity-tracker.json");
+require('dotenv').config()
 
 const publicPath = path.join(__dirname, "/../public");
 const port = process.env.PORT || 3000;
@@ -30,7 +32,7 @@ io.on("connection", (socket) => {
 
   socket.on("winner", (name, room) => {
     if (pointsObj[room] === undefined) pointsObj[room] = [];
-
+    console.log(pointsObj);
     io.to(room).emit("getPoints", name); // Collect Point
   });
 
@@ -81,9 +83,9 @@ io.on("connection", (socket) => {
 
   socket.on("fromRest", (cardArr, where, room, name) => {
     let index;
+    console.log(room, Players)
 
     for (i = 0; i < Players[room].length; i++) {
-
       if (fireObj[room][i].name == name) {
         fireObj[room][i].score++;
         index = i;
@@ -109,7 +111,7 @@ io.on("connection", (socket) => {
       let PlayerObj = { name: Person, score: 0 };
       Players[roomName].push(Person);
       fireObj[roomName].push(PlayerObj);
-
+      console.log(io.sockets.adapter.rooms.get(roomName).size);
       const room = io.sockets.adapter.rooms.has(roomName);
 
       let numClients = 0;
@@ -142,40 +144,50 @@ io.on("connection", (socket) => {
 
     clientRooms[socket.id] = roomName;
 
-    //   state[roomName] = initGame();
     socket.join(roomName);
     io.to(roomName).emit("gameCode", roomName, Players);
 
     socket.number = 1;
-    //  io.emit('init', 1);
   }
 
-  function startGameNow(code, room) {
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
-    let newdate = year + "/" + month + "/" + day;
-
-    if (jsonActivity.activities.hasOwnProperty(newdate)) {
-      if (!jsonActivity.activities[newdate].hasOwnProperty(room)) {
-        const activityDay = jsonActivity.activities[newdate];
-        activityDay[room] = Players[room];
-        let readyToWrite = JSON.stringify(jsonActivity);
-        fs.writeFile("./server/activity-tracker.json", readyToWrite, (err) => {
-          if (err) throw err;
-        });
+  function startGameNow(room, round) {
+    
+    // Send email on new Room 
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD,
+        clientId: process.env.OAUTH_CLIENTID,
+        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN
       }
-    } else {
-      jsonActivity.activities[newdate] = {};
-      jsonActivity.activities[newdate][room] = Players[room];
-      let readyToWrite = JSON.stringify(jsonActivity);
-      fs.writeFile("./server/activity-tracker.json", readyToWrite, (err) => {
-        if (err) throw err;
-      });
-    }
+    });
+    
+    var mailOptions = {
+      from: "dredredev@gmail.com",
+      to: "dredredev@gmail.com",
+      subject: `New room: ${room}`,
+      html: '<!DOCTYPE html>'+
+        `<html><head><title>Someone is Playing! A step away from Silicon Valley!</title>`+
+        '</head><body><div>'+
+        '<p>Here some details</p>'+
+        `<p>Players: ${JSON.stringify(Players[room])}</p>`+
+        `<p>Round number: ${round}</p>`+
+        `<p>Points: ${JSON.stringify(pointsObj[room])}</p>`+
+        '</div></body></html>'
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
 
-    io.to(code).emit("startGameNow");
+    io.to(room).emit("startGameNow");
   }
 
   console.log("A user just connected.");
@@ -194,3 +206,4 @@ function makeid(length) {
   }
   return result;
 }
+

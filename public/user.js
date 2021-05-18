@@ -63,6 +63,7 @@ class User {
             $(val).attr("class").split(" ")[0],
           ]);
         });
+
       socket.emit("from14", null, null, this.room, this.name, arrSendCard); // Send info to server
     }
   }
@@ -84,9 +85,9 @@ class User {
 
   putCard(card, where) {
     let cardRec = [
-        Number.parseInt($(card).text()),
-        $(card).attr("class").split(" ")[0],
-      ],
+      Number.parseInt($(card).text()),
+      $(card).attr("class").split(" ")[0],
+    ],
       index = this.deck.indexOfForArrays(cardRec),
       cardArr;
 
@@ -211,17 +212,18 @@ class User {
   }
 
   onFire(fire, name) {
-    if (fire < 3 && $("#fire").css("display") !== "none") { // <---- THIS NUMBER DECIDE TO ADD FIRE
+    if (fire < 3 && $("#fire").css("display") !== "none") {       // <---- THIS NUMBER DECIDE TO STOP FIRE
       $("#bonus-point").fadeOut();
       $("#fire").fadeOut();
-    } else if (fire >= 3) { // <---- THIS NUMBER DECIDE TO ADD FIRE
+    } else if (fire >= 3 && $("#bonus-sec").css("display") !== "none") {      // <---- THIS NUMBER DECIDE TO ADD FIRE (Prevent sound on phones where fire isn't visible)
       $("#fire").fadeIn();
 
       // Fire sound
       let fireSound = document.getElementById("fire-sound");
       fireSound.currentTime = 0.5;
       fireSound.play();
-      
+
+
       $("#bonus-point").text(name);
       $("#bonus-point").fadeIn();
     }

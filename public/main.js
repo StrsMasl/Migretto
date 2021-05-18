@@ -6,6 +6,7 @@ let user,
   round = 0;
 let socket = io();
 let code;
+let count = 0;
 
 socket.on("gameCode", handleGameCode);
 
@@ -107,7 +108,7 @@ $("#new-game-btn").click(function () {
 });
 
 $("#start-btn").click(function () {
-  socket.emit("startGameTogether", code, code);
+  socket.emit("startGameTogether", code, round);
 
   // Stop Music
   $("#elevet-music").animate({ volume: 0 }, 2000, function () {
@@ -117,7 +118,7 @@ $("#start-btn").click(function () {
 });
 
 $("#repeat-btn").click(function () {
-  socket.emit("startGameTogether", code);
+  socket.emit("startGameTogether", code, round);
 });
 
 socket.on("startGameNow", () => {
@@ -212,7 +213,6 @@ socket.on("getPoints", (name) => {
 });
 
 // Show points on client
-let count = 0;
 socket.on("winner", (pointsArr, winnerName) => {
   if (count === PlayerListVar.length - 1) {
     $("#overlay").show();
