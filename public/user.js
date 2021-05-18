@@ -2,21 +2,24 @@ let countPutted = 0;
 
 class User {
   constructor(deck, name, room) {
+    this.countForShuffle = 0;
     this.room = room;
     this.name = name;
     this.deck = deck.giveDeck();
     this.firstForteen = [];
   }
 
-  assignFirstForteen($domRow) {
+  assignFirstForteen($domRow, rule = true) {
     let cards = this.firstForteen;
 
-    // Take 14 cards from the user deck and add them to another array
-    for (let i = 0; i < 14; i++) {
-      let random = Math.floor(Math.random() * 100);
+    if (rule) {
+      // Take 14 cards from the user deck and add them to another array
+      for (let i = 0; i < 14; i++) {
+        let random = Math.floor(Math.random() * 100);
 
-      if (random < 33) cards.push(this.deck.shift());
-      else cards.push(this.deck.pop());
+        if (random < 33) cards.push(this.deck.shift());
+        else cards.push(this.deck.pop());
+      }
     }
 
     // Show the card in front of him
@@ -29,6 +32,7 @@ class User {
     }
     this.updateDeckCard($domRow);
     let arrSendCard = [];
+    
     $("#user-cards")
       .children()
       .each((i, val) => {
@@ -42,6 +46,7 @@ class User {
 
   doubleClickDeck($domRow) {
     if ($domRow.children().length < 5) {
+      this.countForShuffle = 0;
       let card = this.firstForteen.pop();
       this.firstForteen.unshift(card);
 
@@ -96,6 +101,7 @@ class User {
 
       // If card is rejected from table put it back
       if (table.addOnTop(cardArr, $(where))) {
+        this.countForShuffle = 0;
         cardArr = this.deck.splice(index, 1).pop();
 
         // Change color user table
@@ -128,6 +134,7 @@ class User {
 
       // If card is rejected from table put it back
       if (table.addOnTop(cardArr, $(where))) {
+        this.countForShuffle = 0;
         cardArr = this.firstForteen.splice(index, 1).pop();
 
         $(".slot-table").removeClass("selected");
@@ -187,6 +194,13 @@ class User {
   }
 
   fromDeck($domCol) {
+    console.log("pressed", this.countForShuffle);
+    if (this.countForShuffle >= 10) {
+      $("#box").fadeIn();
+    } else {
+      console.log("pressed", this.countForShuffle);
+      this.countForShuffle++;
+    }
     $domCol.empty(); // remove previous card
 
     // Show card on DOM with delay
@@ -211,17 +225,19 @@ class User {
   }
 
   onFire(fire, name) {
-    if (fire < 3 && $("#fire").css("display") !== "none") { // <---- THIS NUMBER DECIDE TO ADD FIRE
+    if (fire < 3 && $("#fire").css("display") !== "none") {
+      // <---- THIS NUMBER DECIDE TO ADD FIRE
       $("#bonus-point").fadeOut();
       $("#fire").fadeOut();
-    } else if (fire >= 3) { // <---- THIS NUMBER DECIDE TO ADD FIRE
+    } else if (fire >= 3) {
+      // <---- THIS NUMBER DECIDE TO ADD FIRE
       $("#fire").fadeIn();
 
       // Fire sound
       let fireSound = document.getElementById("fire-sound");
       fireSound.currentTime = 0.5;
       fireSound.play();
-      
+
       $("#bonus-point").text(name);
       $("#bonus-point").fadeIn();
     }

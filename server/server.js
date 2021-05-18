@@ -132,6 +132,19 @@ io.on("connection", (socket) => {
     }
   }
 
+  socket.on('shouldShuffle', function (room, name) {
+    io.to(room).emit('confirmShuffle', name)
+  })
+
+  let confArr = []
+  socket.on('checkShuffleReply', function (room, confirm) {
+    confArr.push(confirm)
+
+    if(Players[room].length-2 === confArr.length) {
+      if(confArr.indexOf(false) === -1 ) socket.to(room).emit('shuffle')
+    }
+  })
+
   function handleNewGame(name) {
     let roomName = makeid(5);
     let PlayerObj = { name: name, score: 0 };

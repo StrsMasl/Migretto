@@ -3,7 +3,8 @@ let Playlerlist;
 let PlayerListVar;
 let user,
   table,
-  round = 0;
+  round = 0,
+  deck;
 let socket = io();
 let code;
 
@@ -147,7 +148,8 @@ socket.on("startGameNow", () => {
   }
 
   $("#start-div").fadeOut();
-  user = new User(new Deck(), Person, code);
+  deck = new Deck()
+  user = new User(deck, Person, code);
 
   // If there are other Players pass the number and the array
   if (PlayerListVar) {
@@ -249,6 +251,35 @@ socket.on("winner", (pointsArr, winnerName) => {
   count++;
 });
 
+// Shuffle button
+$('#box').click(function() {
+  user.countForShuffle = 0;
+  $(this).fadeOut() // FadeOut button
+
+  socket.emit('shouldShuffle', code, Person)
+})
+
+socket.on('shuffle', function () {
+    // Clear DOM
+    let deck14 = $("<div></div>").addClass('deck-cards text-center h-100 deckImp');
+    $("#user-cards").empty();
+    $("#user-cards").append(deck14);
+  
+    // Reassign cards
+    let cards = user.firstForteen
+    let shuffledCards = deck.shuffle(cards)
+    user.firstForteen = shuffledCards
+  
+    user.assignFirstForteen($("#user-cards"), false)
+})
+
+socket.on('confirmShuffle', function (name) {
+  if(name !== Person) {
+    let confirming = confirm(`${name} wants to shuffle the deck. Do you agree? Accept only if there's no more card to put!`)
+    socket.emit('checkShuffleReply', code, confirming)
+  }
+})
+
 // Clear DOM
 function clearDOM() {
 
@@ -271,3 +302,4 @@ function clearDOM() {
   $("#user-cards").append(deck14);
   count = 0;
 }
+

@@ -444,6 +444,29 @@ body {
   color: rgb(255, 255, 255);
 }
 
+.shuffle14 #box button {
+  top: -10vh;
+  left: 15vh;
+  text-align: center;
+  position: absolute;
+  z-index: 1200;
+  font-size: medium;
+  background: rgba(75, 246, 7, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.shuffle14 #box button:hover {
+background: rgba( 255, 255, 255, 0.35 );
+box-shadow: 0 8px 32px 0 rgba(75, 246, 7, 0.3);
+backdrop-filter: blur( 0.0px );
+-webkit-backdrop-filter: blur( 0.0px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
 
 
 /* FIRE */
