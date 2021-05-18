@@ -3,6 +3,8 @@ const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
 const { ifError } = require("assert");
+const fs = require("fs");
+let jsonActivity = require("./activity-tracker.json");
 
 const publicPath = path.join(__dirname, "/../public");
 const port = process.env.PORT || 3000;
@@ -22,15 +24,13 @@ let pointsObj = {};
 let fireObj = {};
 
 io.on("connection", (socket) => {
-  console.log(io.sockets.adapter.rooms);
-
   socket.on("startGameOne", handleNewGame);
   socket.on("joinGame", handleJoinGame);
   socket.on("startGameTogether", startGameNow);
 
   socket.on("winner", (name, room) => {
     if (pointsObj[room] === undefined) pointsObj[room] = [];
-    console.log(pointsObj);
+
     io.to(room).emit("getPoints", name); // Collect Point
   });
 
@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
     pointsObj[room].forEach((val, i) => {
       if (val[0] === name) indexPersonPoints = i;
     });
-    
+
     // If name is found sum points else push name and points
     if (indexPersonPoints !== undefined) {
       pointsObj[room][indexPersonPoints][1] += points;
@@ -55,43 +55,49 @@ io.on("connection", (socket) => {
 
   socket.on("from14", (cardArr, where, room, name, cards) => {
     if (cardArr !== null) {
+      let index;
 
-      let index
-      console.log(fireObj[room][0])
-      console.log(cardArr, where);
       for (i = 0; i < Players[room].length; i++) {
-        console.log(fireObj[room][i].score)
+
         if (fireObj[room][i].name === name) {
-          fireObj[room][i].score ++
-          index = i
+          fireObj[room][i].score++;
+          index = i;
         } else {
-          fireObj[room][i].score = 0
+          fireObj[room][i].score = 0;
         }
       }
 
-
-      io.to(room).emit("placeFrom14", cardArr, where,fireObj[room][index].score, name);
-
+      io.to(room).emit(
+        "placeFrom14",
+        cardArr,
+        where,
+        fireObj[room][index].score,
+        name
+      );
     }
 
     io.to(room).emit("changeEnemies", name, cards);
   });
 
   socket.on("fromRest", (cardArr, where, room, name) => {
+    let index;
 
-    let index
-    
     for (i = 0; i < Players[room].length; i++) {
-      console.log(fireObj[room][i].score)
+
       if (fireObj[room][i].name == name) {
-        fireObj[room][i].score ++
-        index = i
+        fireObj[room][i].score++;
+        index = i;
       } else {
-        fireObj[room][i].score = 0
+        fireObj[room][i].score = 0;
       }
     }
-    io.to(room).emit("placeFromRest", cardArr, where,fireObj[room][index].score, name);
-
+    io.to(room).emit(
+      "placeFromRest",
+      cardArr,
+      where,
+      fireObj[room][index].score,
+      name
+    );
   });
 
   /*    socket.on('startGame', () => {
@@ -99,13 +105,11 @@ io.on("connection", (socket) => {
     }) */
 
   function handleJoinGame(roomName, Person) {
-    let PlayerObj = {"name" : Person, "score" : 0}
-    
     if (Players[roomName] !== undefined) {
+      let PlayerObj = { name: Person, score: 0 };
       Players[roomName].push(Person);
       fireObj[roomName].push(PlayerObj);
-      console.log(Players);
-      console.log(io.sockets.adapter.rooms.get(roomName).size);
+
       const room = io.sockets.adapter.rooms.has(roomName);
 
       let numClients = 0;
@@ -113,15 +117,6 @@ io.on("connection", (socket) => {
         numClients = io.sockets.adapter.rooms.get(roomName).size;
       }
 
-      if (numClients === 0) {
-        console.log("unknown Code");
-        io.emit("unknownCode");
-        return;
-      } else if (numClients > 4) {
-        console.log("tooManyPlayers");
-        io.emit("tooManyPlayers");
-        return;
-      }
       clientRooms[socket.id] = roomName;
 
       socket.join(roomName);
@@ -133,13 +128,13 @@ io.on("connection", (socket) => {
         Players[roomName]
       );
     } else {
-      io.to(socket.io).emit('noRoomFound', Person, roomName)
+      io.to(socket.io).emit("noRoomFound", Person, roomName);
     }
   }
 
   function handleNewGame(name) {
     let roomName = makeid(5);
-    let PlayerObj = {"name" : name, "score" : 0}
+    let PlayerObj = { name: name, score: 0 };
     fireObj[roomName] = [];
     fireObj[roomName].push(PlayerObj);
     Players[roomName] = [];
@@ -155,8 +150,31 @@ io.on("connection", (socket) => {
     //  io.emit('init', 1);
   }
 
-  function startGameNow(code) {
-    console.log(code);
+  function startGameNow(code, room) {
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    let newdate = year + "/" + month + "/" + day;
+
+    if (jsonActivity.activities.hasOwnProperty(newdate)) {
+      if (!jsonActivity.activities[newdate].hasOwnProperty(room)) {
+        const activityDay = jsonActivity.activities[newdate];
+        activityDay[room] = Players[room];
+        let readyToWrite = JSON.stringify(jsonActivity);
+        fs.writeFile("./server/activity-tracker.json", readyToWrite, (err) => {
+          if (err) throw err;
+        });
+      }
+    } else {
+      jsonActivity.activities[newdate] = {};
+      jsonActivity.activities[newdate][room] = Players[room];
+      let readyToWrite = JSON.stringify(jsonActivity);
+      fs.writeFile("./server/activity-tracker.json", readyToWrite, (err) => {
+        if (err) throw err;
+      });
+    }
+
     io.to(code).emit("startGameNow");
   }
 

@@ -210,24 +210,20 @@ class User {
     }, 200);
   }
 
+  onFire(fire, name) {
+    if (fire < 3 && $("#fire").css("display") !== "none") { // <---- THIS NUMBER DECIDE TO ADD FIRE
+      $("#bonus-point").fadeOut();
+      $("#fire").fadeOut();
+    } else if (fire >= 3) { // <---- THIS NUMBER DECIDE TO ADD FIRE
+      $("#fire").fadeIn();
 
-  onFire(fire,name) {
-    if (fire < 3 && $("#fire").css("display") !== "none") { 
-    $("#bonus-point").fadeOut()
-    $("#fire").fadeOut();
-    } else
-      if (fire >= 3) { // <---- THIS NUMBER DECIDE TO ADD FIRE
-
-        $("#fire").fadeIn();
-
-         // Fire sound
-        let fireSound = document.getElementById("fire-sound");
-        fireSound.currentTime = 0.5;
-        fireSound.play();
-        $("#bonus-point").text(name)
-        $("#bonus-point").fadeIn()
-
+      // Fire sound
+      let fireSound = document.getElementById("fire-sound");
+      fireSound.currentTime = 0.5;
+      fireSound.play();
       
+      $("#bonus-point").text(name);
+      $("#bonus-point").fadeIn();
     }
   }
 }

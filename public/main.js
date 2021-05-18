@@ -18,12 +18,10 @@ socket.on("changeEnemies", (name, cards) => {
 // Server Place Card from 14 deck
 
 socket.on("placeFrom14", (card, where, fire, name) => {
-  console.log("fire " + fire)
 
   // Show card on Table & prepend class
   let where1 = $(document).find(`#${where}`);
   let classes = where1.attr("class");
-  console.log(name + 'made move')
 
   where1.removeClass().addClass(card[1]).addClass(classes).text(card[0]);
 
@@ -33,12 +31,10 @@ socket.on("placeFrom14", (card, where, fire, name) => {
 // Server Place Card from normal deck
 
 socket.on("placeFromRest", (card, where, fire, name) => {
-  console.log("fire " + fire)
 
   // Show card on Table & prepend class
   let where1 = $(document).find(`#${where}`);
   let classes = where1.attr("class");
-  console.log(name + 'made move')
 
   where1.removeClass().addClass(card[1]).addClass(classes).text(card[0]);
 
@@ -111,7 +107,7 @@ $("#new-game-btn").click(function () {
 });
 
 $("#start-btn").click(function () {
-  socket.emit("startGameTogether", code);
+  socket.emit("startGameTogether", code, code);
 
   // Stop Music
   $("#elevet-music").animate({ volume: 0 }, 2000, function () {
@@ -200,7 +196,6 @@ $(".user-cards").on("click", ".single-card", function () {
 
 // Click deck
 $(document).on('click', '.deckImp', function () {
-  console.log(user)
   user.doubleClickDeck($("#user-cards"));
 });
 
