@@ -32,7 +32,6 @@ io.on("connection", (socket) => {
 
   socket.on("winner", (name, room) => {
     if (pointsObj[room] === undefined) pointsObj[room] = [];
-    console.log(pointsObj);
     io.to(room).emit("getPoints", name); // Collect Point
   });
 
@@ -83,7 +82,6 @@ io.on("connection", (socket) => {
 
   socket.on("fromRest", (cardArr, where, room, name) => {
     let index;
-    console.log(room, Players)
 
     for (i = 0; i < Players[room].length; i++) {
       if (fireObj[room][i].name == name) {
@@ -101,10 +99,6 @@ io.on("connection", (socket) => {
       name
     );
   });
-
-  /*    socket.on('startGame', () => {
-        io.emit('startGame');
-    }) */
 
   function handleJoinGame(roomName, Person) {
     if (Players[roomName] !== undefined) {
@@ -151,7 +145,7 @@ io.on("connection", (socket) => {
   }
 
   function startGameNow(room, round) {
-    
+
     // Send email on new Room 
     var transporter = nodemailer.createTransport({
       service: 'gmail',
