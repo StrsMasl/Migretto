@@ -303,3 +303,8 @@ function clearDOM() {
   count = 0;
 };
 
+// Enter key
+$(document).on('keydown', function(e){
+  if(e.keyCode === 13 && $('#new-game-div').css('display') !== 'none' && $("#gameCodeInput").val() !== '') $('#joinGameButton').click()
+  else if ($('#new-game-div').css('display') === 'none' && $('#PlayersDiv').css('display') !== 'none') $('#start-btn').click()
+})

@@ -129,7 +129,7 @@ io.on("connection", (socket) => {
         Players[roomName]
       );
     } else {
-      io.to(socket.io).emit("noRoomFound", Person, roomName);
+      socket.emit("noRoomFound", Person, roomName);
     }
   }
 
