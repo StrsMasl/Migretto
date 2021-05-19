@@ -194,11 +194,9 @@ class User {
   }
 
   fromDeck($domCol) {
-    console.log("pressed", this.countForShuffle);
     if (this.countForShuffle >= 10) {
       $("#box").fadeIn();
     } else {
-      console.log("pressed", this.countForShuffle);
       this.countForShuffle++;
     }
     $domCol.empty(); // remove previous card

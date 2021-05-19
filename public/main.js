@@ -266,19 +266,19 @@ socket.on('shuffle', function () {
     $("#user-cards").append(deck14);
   
     // Reassign cards
-    let cards = user.firstForteen
-    let shuffledCards = deck.shuffle(cards)
-    user.firstForteen = shuffledCards
+    let cards = user.firstForteen;
+    let shuffledCards = deck.shuffle(cards);
+    user.firstForteen = shuffledCards;
   
-    user.assignFirstForteen($("#user-cards"), false)
-})
+    user.assignFirstForteen($("#user-cards"), false);
+});
 
 socket.on('confirmShuffle', function (name) {
   if(name !== Person) {
-    let confirming = confirm(`${name} wants to shuffle the deck. Do you agree? Accept only if there's no more card to put!`)
-    socket.emit('checkShuffleReply', code, confirming)
-  }
-})
+    let confirming = confirm(`${name} wants to shuffle the deck. Do you agree? Accept only if there's no more card to put!`);
+    socket.emit('checkShuffleReply', code, `${confirming}`);
+  };
+});
 
 // Clear DOM
 function clearDOM() {
@@ -301,5 +301,5 @@ function clearDOM() {
   $("#user-cards").empty();
   $("#user-cards").append(deck14);
   count = 0;
-}
+};
 

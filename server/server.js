@@ -22,6 +22,7 @@ const clientRooms = {};
 const Players = {};
 let pointsObj = {};
 let fireObj = {};
+const shuffleObj = {};
 
 io.on("connection", (socket) => {
   socket.on("startGameOne", handleNewGame);
@@ -133,15 +134,15 @@ io.on("connection", (socket) => {
   }
 
   socket.on('shouldShuffle', function (room, name) {
-    io.to(room).emit('confirmShuffle', name)
-  })
+    if(shuffleObj[room] === undefined) shuffleObj[room] = [];
+    io.to(room).emit('confirmShuffle', name);
+  });
 
-  let confArr = []
   socket.on('checkShuffleReply', function (room, confirm) {
-    confArr.push(confirm)
-
-    if(Players[room].length-2 === confArr.length) {
-      if(confArr.indexOf(false) === -1 ) socket.to(room).emit('shuffle')
+    shuffleObj[room].push(confirm);
+    if(Players[room].length-1 === shuffleObj[room].length) {
+      if(shuffleObj[room].indexOf('false') === -1 ) io.to(room).emit('shuffle')
+      delete shuffleObj[room]
     }
   })
 
