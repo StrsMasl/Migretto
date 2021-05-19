@@ -254,13 +254,17 @@ socket.on("winner", (pointsArr, winnerName) => {
 // Shuffle button
 $('#box').click(function() {
   user.countForShuffle = 0;
-  $(this).fadeOut() // FadeOut button
+  $(this).children().eq(0).html('<span class="spinner-border spinner-border-sm"></span>').attr("disabled", true);
+  $('#overlay').css('display', 'block')
 
   socket.emit('shouldShuffle', code, Person)
 })
 
 socket.on('shuffle', function () {
     // Clear DOM
+    $('#overlay').css('display', 'none');
+    $("#box").fadeOut();
+    $('#shuffleConf').fadeOut()
     let deck14 = $("<div></div>").addClass('deck-cards text-center h-100 deckImp');
     $("#user-cards").empty();
     $("#user-cards").append(deck14);
@@ -273,12 +277,33 @@ socket.on('shuffle', function () {
     user.assignFirstForteen($("#user-cards"), false);
 });
 
+socket.on('justClean', function () {
+  // Clear DOM
+  $('#overlay').css('display', 'none');
+  $("#box").fadeOut();
+  $('#shuffleConf').fadeOut()
+});
+
 socket.on('confirmShuffle', function (name) {
   if(name !== Person) {
-    let confirming = confirm(`${name} wants to shuffle the deck. Do you agree? Accept only if there's no more card to put!`);
-    socket.emit('checkShuffleReply', code, `${confirming}`);
+    $('#textConfShuff').text(`${name} wants to shuffle the deck. Do you agree? Accept only if there's no more card to put!`);
+    $('#shuffOk').attr("disabled", false)
+    $('#shuffNo').attr("disabled", false)
+    $('#shuffleConf').fadeIn()
   };
 });
+
+$('#shuffNo').click(function () {
+  socket.emit('checkShuffleReply', code, `false`);
+  $(this).attr("disabled", true)
+  $('#shuffOk').attr("disabled", true)
+})
+
+$('#shuffOk').click(function () {
+  socket.emit('checkShuffleReply', code, `true`);
+  $(this).attr("disabled", true)
+  $('#shuffNo').attr("disabled", true)
+})
 
 // Clear DOM
 function clearDOM() {
@@ -306,5 +331,5 @@ function clearDOM() {
 // Enter key
 $(document).on('keydown', function(e){
   if(e.keyCode === 13 && $('#new-game-div').css('display') !== 'none' && $("#gameCodeInput").val() !== '') $('#joinGameButton').click()
-  else if ($('#new-game-div').css('display') === 'none' && $('#PlayersDiv').css('display') !== 'none') $('#start-btn').click()
+  else if (e.keyCode === 13 && $('#PlayersDiv').css('display') !== 'none') $('#start-btn').click()
 })

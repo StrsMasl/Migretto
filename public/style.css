@@ -167,6 +167,22 @@ body {
 }
 
 /* Opposers section & Table */
+#shuffleConf {
+  position: absolute;
+  z-index: 1100;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.shuffTitle{
+  margin-bottom: 20px;
+}
+
+.modal-body {
+  font-weight: 500 !important;
+}
 
 .cards-opponents {
   text-align: initial;

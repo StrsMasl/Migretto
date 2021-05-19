@@ -20,16 +20,41 @@
 
 <body>
     <div style="overflow: auto;" class="main-row background h-100">
+        <!-- SHUFFLE CONFIRM -->
+        <div id="shuffleConf" style="display: none;" class="container">
+            <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div style="background-color: rgb(179 229 255 / 41%) !important;"
+                        class="points-color card card-signin my-5">
+                        <div class="card-body">
+                            <h5 class="card-title text-center shuffTitle">Shuffle?</h5>
+                            <div class="form-signin">
+                                <div class="form-label-group">
+                                    <div id="textConfShuff" class="modal-body">
+                                        <p>Text</p>
+                                    </div>
+                                </div>
+                                <button id="shuffNo" class="btn btn-lg btn-danger btn-block text-uppercase">No</button>
+                                <button id="shuffOk" class="btn btn-lg btn-primary btn-block text-uppercase">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <!-- POINTS -->
         <div id="points-div" style="display: none;" class="container">
             <div class="row">
                 <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                    <div style="background-color: rgb(179 229 255 / 41%) !important;" class="points-color card card-signin my-5">
+                    <div style="background-color: rgb(179 229 255 / 41%) !important;"
+                        class="points-color card card-signin my-5">
                         <div class="card-body">
                             <h5 id="name-winner" class="card-title text-center">Ranking</h5>
                             <div class="form-signin">
                                 <div class="form-label-group">
-                                    <ul id="players-points" class="list-group" style="font-weight: normal; font-size: large; background: none;">
+                                    <ul id="players-points" class="list-group"
+                                        style="font-weight: normal; font-size: large; background: none;">
                                     </ul>
                                 </div>
                                 <button id="repeat-btn" class="btn btn-lg btn-primary btn-block text-uppercase">Play

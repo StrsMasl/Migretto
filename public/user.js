@@ -195,6 +195,7 @@ class User {
 
   fromDeck($domCol) {
     if (this.countForShuffle >= 10) {
+      $('#box').children().eq(0).attr("disabled", false).text('Shuffle?');
       $("#box").fadeIn();
     } else {
       this.countForShuffle++;

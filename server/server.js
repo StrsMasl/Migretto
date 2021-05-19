@@ -140,8 +140,10 @@ io.on("connection", (socket) => {
 
   socket.on('checkShuffleReply', function (room, confirm) {
     shuffleObj[room].push(confirm);
+    console.log(shuffleObj[room], shuffleObj[room].length, Players[room], Players[room].length)
     if(Players[room].length-1 === shuffleObj[room].length) {
       if(shuffleObj[room].indexOf('false') === -1 ) io.to(room).emit('shuffle')
+      else io.to(room).emit('justClean')
       delete shuffleObj[room]
     }
   })
